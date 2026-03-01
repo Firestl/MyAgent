@@ -1,0 +1,7 @@
+package supwisdom;
+
+/* JADX INFO: compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
+/* JADX INFO: loaded from: classes.dex */
+public interface oh0 {
+    long a();
+}

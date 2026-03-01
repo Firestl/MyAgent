@@ -1,0 +1,62 @@
+package com.alibaba.fastjson.parser.deserializer;
+
+import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.parser.DefaultJSONParser;
+import com.alibaba.fastjson.parser.JSONLexer;
+import com.alibaba.fastjson.parser.JSONScanner;
+import java.lang.reflect.Type;
+import java.sql.Time;
+
+/* JADX INFO: loaded from: classes.dex */
+public class TimeDeserializer implements ObjectDeserializer {
+    public static final TimeDeserializer instance = new TimeDeserializer();
+
+    /* JADX WARN: Multi-variable type inference failed */
+    @Override // com.alibaba.fastjson.parser.deserializer.ObjectDeserializer
+    public <T> T deserialze(DefaultJSONParser defaultJSONParser, Type type, Object obj) {
+        JSONLexer lexer = defaultJSONParser.getLexer();
+        if (lexer.token() == 16) {
+            lexer.nextToken(4);
+            if (lexer.token() != 4) {
+                throw new JSONException("syntax error");
+            }
+            lexer.nextTokenWithColon(2);
+            if (lexer.token() != 2) {
+                throw new JSONException("syntax error");
+            }
+            long jLongValue = lexer.longValue();
+            lexer.nextToken(13);
+            if (lexer.token() != 13) {
+                throw new JSONException("syntax error");
+            }
+            lexer.nextToken(16);
+            return (T) new Time(jLongValue);
+        }
+        T t = (T) defaultJSONParser.parse();
+        if (t == 0) {
+            return null;
+        }
+        if (t instanceof Time) {
+            return t;
+        }
+        if (t instanceof Number) {
+            return (T) new Time(((Number) t).longValue());
+        }
+        if (!(t instanceof String)) {
+            throw new JSONException("parse error");
+        }
+        String str = (String) t;
+        if (str.length() == 0) {
+            return null;
+        }
+        JSONScanner jSONScanner = new JSONScanner(str);
+        long timeInMillis = jSONScanner.scanISO8601DateIfMatch() ? jSONScanner.getCalendar().getTimeInMillis() : Long.parseLong(str);
+        jSONScanner.close();
+        return (T) new Time(timeInMillis);
+    }
+
+    @Override // com.alibaba.fastjson.parser.deserializer.ObjectDeserializer
+    public int getFastMatchToken() {
+        return 2;
+    }
+}

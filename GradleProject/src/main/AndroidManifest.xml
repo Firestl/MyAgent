@@ -1,0 +1,1358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="20032"
+    android:versionName="1.1.5"
+    android:compileSdkVersion="30"
+    android:compileSdkVersionCodename="11"
+    package="com.supwisdom.zueb"
+    platformBuildVersionCode="30"
+    platformBuildVersionName="11">
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="30"/>
+    <queries>
+        <package android:name="com.tencent.mm"/>
+        <package android:name="com.tencent.wework"/>
+    </queries>
+    <permission
+        android:name="getui.permission.GetuiService.com.supwisdom.zueb"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <permission
+        android:name="com.supwisdom.zueb.permission.MIPUSH_RECEIVE"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <uses-feature android:glEsVersion="0x20000"/>
+    <uses-permission-sdk-23 android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission-sdk-23 android:name="android.permission.SYSTEM_OVERLAY_WINDOW"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
+    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <supports-screens
+        android:anyDensity="true"
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:resizeable="true"/>
+    <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT"/>
+    <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE"/>
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS"/>
+    <uses-permission android:name="com.android.launcher2.permission.READ_SETTINGS"/>
+    <uses-permission android:name="com.android.launcher3.permission.READ_SETTINGS"/>
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
+    <queries>
+        <package android:name="com.tencent.mm"/>
+    </queries>
+    <queries>
+        <package android:name="com.tencent.mm"/>
+    </queries>
+    <uses-permission android:name="com.asus.msa.SupplementaryDID.ACCESS"/>
+    <uses-permission android:name="freemme.permission.msa"/>
+    <queries>
+        <package android:name="com.tencent.mm"/>
+    </queries>
+    <queries>
+        <package android:name="com.eg.android.AlipayGphone"/>
+        <package android:name="hk.alipay.wallet"/>
+    </queries>
+    <queries>
+        <package android:name="com.tencent.mobileqq"/>
+    </queries>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="getui.permission.GetuiService.com.supwisdom.zueb"/>
+    <uses-permission android:name="com.vivo.notification.permission.BADGE_ICON"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+    <permission
+        android:name="com.supwisdom.zueb.permission.GYRECEIVER"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="com.supwisdom.zueb.permission.GYRECEIVER"/>
+    <permission
+        android:name="com.supwisdom.zueb.permission.PROCESS_PUSH_MSG"
+        android:protectionLevel="signatureOrSystem"/>
+    <permission
+        android:name="com.supwisdom.zueb.permission.PUSH_PROVIDER"
+        android:protectionLevel="signatureOrSystem"/>
+    <permission
+        android:name="com.supwisdom.zueb.permission.PUSH_WRITE_PROVIDER"
+        android:protectionLevel="signatureOrSystem"/>
+    <uses-permission android:name="com.supwisdom.zueb.permission.PROCESS_PUSH_MSG"/>
+    <uses-permission android:name="com.supwisdom.zueb.permission.PUSH_PROVIDER"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="com.supwisdom.zueb.permission.MIPUSH_RECEIVE"/>
+    <uses-permission android:name="com.coloros.mcs.permission.RECIEVE_MCS_MESSAGE"/>
+    <uses-permission android:name="com.heytap.mcs.permission.RECIEVE_MCS_MESSAGE"/>
+    <uses-permission android:name="com.hihonor.push.permission.READ_PUSH_NOTIFICATION_INFO"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+    <uses-permission android:name="com.sec.android.provider.badge.permission.READ"/>
+    <uses-permission android:name="com.sec.android.provider.badge.permission.WRITE"/>
+    <uses-permission android:name="com.htc.launcher.permission.READ_SETTINGS"/>
+    <uses-permission android:name="com.htc.launcher.permission.UPDATE_SHORTCUT"/>
+    <uses-permission android:name="com.sonyericsson.home.permission.BROADCAST_BADGE"/>
+    <uses-permission android:name="com.sonymobile.home.permission.PROVIDER_INSERT_BADGE"/>
+    <uses-permission android:name="com.anddoes.launcher.permission.UPDATE_COUNT"/>
+    <uses-permission android:name="com.majeur.launcher.permission.UPDATE_BADGE"/>
+    <uses-permission android:name="com.huawei.android.launcher.permission.READ_SETTINGS"/>
+    <uses-permission android:name="com.huawei.android.launcher.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="com.hihonor.android.launcher.permission.CHANGE_BADGE"/>
+    <uses-permission android:name="com.hihonor.android.launcher.permission.READ_SETTINGS"/>
+    <uses-permission android:name="com.hihonor.android.launcher.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.READ_APP_BADGE"/>
+    <uses-permission android:name="com.oppo.launcher.permission.READ_SETTINGS"/>
+    <uses-permission android:name="com.oppo.launcher.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="me.everything.badger.permission.BADGE_COUNT_READ"/>
+    <uses-permission android:name="me.everything.badger.permission.BADGE_COUNT_WRITE"/>
+    <queries>
+        <package android:name="com.android.creator"/>
+        <package android:name="com.mdid.msa"/>
+        <package android:name="com.samsung.android.deviceidservice"/>
+        <package android:name="com.coolpad.deviceidsupport"/>
+        <package android:name="com.heytap.openid"/>
+        <package android:name="com.huawei.hwid"/>
+        <package android:name="com.huawei.hwid.tv"/>
+        <package android:name="com.huawei.hms"/>
+        <package android:name="com.asus.msa.SupplementaryDID"/>
+        <package android:name="com.zui.deviceidservice"/>
+    </queries>
+    <uses-permission android:name="com.huawei.appmarket.service.commondata.permission.GET_COMMON_DATA"/>
+    <application
+        android:theme="@style/AppTheme"
+        android:label="我i经贸"
+        android:icon="@mipmap/logo"
+        android:name="com.supwisdom.superapp.WXApplication"
+        android:allowClearUserData="true"
+        android:screenOrientation="portrait"
+        android:allowBackup="false"
+        android:largeHeap="true"
+        android:supportsRtl="true"
+        android:extractNativeLibs="true"
+        android:usesCleartextTraffic="true"
+        android:resizeableActivity="false"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+        android:requestLegacyExternalStorage="true">
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.supwisdom.superapp.ddshare.DDShareActivity"
+            android:exported="true"
+            android:launchMode="singleInstance"/>
+        <activity-alias
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.supwisdom.zueb.ddshare.DDShareActivity"
+            android:exported="true"
+            android:targetActivity="com.supwisdom.superapp.ddshare.DDShareActivity"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:name="com.supwisdom.superapp.ui.activity.VertificateFinishActivity"
+            android:screenOrientation="unspecified"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:name="com.supwisdom.superapp.ui.activity.VertificateActivity"
+            android:screenOrientation="unspecified"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:name="com.supwisdom.superapp.ui.activity.CertificationActivity"
+            android:exported="false"
+            android:screenOrientation="unspecified"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:name="com.supwisdom.superapp.ui.activity.SafeQuestionActivity"
+            android:exported="false"
+            android:screenOrientation="unspecified"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:name="com.supwisdom.superapp.ui.activity.BindMessageActivity"
+            android:exported="false"
+            android:screenOrientation="unspecified"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:name="com.supwisdom.superapp.ui.activity.InformationPerfectionActivity"
+            android:exported="false"
+            android:screenOrientation="unspecified"/>
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.4"/>
+        <meta-data
+            android:name="android.notch_support"
+            android:value="true"/>
+        <uses-library android:name="android.test.runner"/>
+        <meta-data
+            android:name="UCSDKAppKey"
+            android:value="UtWVCHiCY4Jw2DisfmLgcePLWHhx8ruW7yq4duXvfcIEtfIghHDs922utrkrQY1Ilt3+WbV34Wj1i4DFhZ1/fQ=="/>
+        <receiver android:name="com.supwisdom.superapp.util.CoverageDataDumper">
+            <intent-filter>
+                <action android:name="com.taobao.weex.DUMP_COVERAGE_DATA"/>
+            </intent-filter>
+        </receiver>
+        <activity
+            android:theme="@style/LaunchTheme"
+            android:label="我i经贸"
+            android:name="com.supwisdom.superapp.ui.activity.MainActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="unspecified"
+            android:configChanges="screenSize|orientation|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.APP_BROWSER"/>
+                <data android:scheme="com.supwisdom.zueb"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="我i经贸"
+            android:name="com.supwisdom.superapp.ui.activity.GuideActivity"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="我i经贸"
+            android:name="com.supwisdom.superapp.ui.activity.H5Activity"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="我i经贸"
+            android:name="com.supwisdom.superapp.ui.activity.NewWindowActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="我i经贸"
+            android:name="com.supwisdom.superapp.ui.activity.LoginActivity"
+            android:screenOrientation="unspecified"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="我i经贸"
+            android:name="com.supwisdom.superapp.ui.activity.GYLoginActivityFullscreen"
+            android:screenOrientation="unspecified"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="我i经贸"
+            android:name="com.supwisdom.superapp.ui.activity.AccountInfoActivity"
+            android:screenOrientation="unspecified"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="我i经贸"
+            android:name="com.supwisdom.superapp.ui.activity.FaceLivenessExpActivity"
+            android:screenOrientation="unspecified"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="我i经贸"
+            android:name="com.supwisdom.superapp.ui.activity.ForgetPasswordActivity"
+            android:screenOrientation="unspecified"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="我i经贸"
+            android:name="com.supwisdom.superapp.ui.activity.InputVerifyCodeActivity"
+            android:screenOrientation="unspecified"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="我i经贸"
+            android:name="com.supwisdom.superapp.ui.activity.BindThirdActivity"
+            android:screenOrientation="unspecified"/>
+        <activity
+            android:theme="@style/AppTheme.Dialog"
+            android:label="我i经贸"
+            android:name="com.supwisdom.superapp.ui.activity.UpdateActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="unspecified">
+            <intent-filter>
+                <action
+                    android:name="cc.xiaobaicz.work.INSTALL_APK"
+                    android:exported="true"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="我i经贸"
+            android:name="com.supwisdom.superapp.ui.activity.BindPhoneActivity"
+            android:screenOrientation="unspecified"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="我i经贸"
+            android:name="com.supwisdom.superapp.ui.activity.ResetPasswordActivity"
+            android:screenOrientation="unspecified"
+            android:windowSoftInputMode="adjustPan|stateVisible"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="我i经贸"
+            android:name="com.supwisdom.superapp.ui.activity.FaceLoginActivity"
+            android:screenOrientation="unspecified"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="我i经贸"
+            android:name="com.supwisdom.superapp.WXPageActivity"
+            android:screenOrientation="unspecified"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:name="com.google.zxing.client.android.CaptureActivity"
+            android:clearTaskOnLaunch="true"
+            android:stateNotNeeded="true"
+            android:screenOrientation="unspecified"
+            android:windowSoftInputMode="stateAlwaysHidden">
+            <intent-filter>
+                <action android:name="com.google.zxing.client.android.SCAN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="http"
+                    android:host="zxing.appspot.com"
+                    android:path="/scan"/>
+            </intent-filter>
+        </activity>
+        <provider
+            android:name="io.dcloud.common.util.DCloud_FileProvider"
+            android:exported="false"
+            android:authorities="com.supwisdom.zueb.dc.fileprovider"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:authorities="com.supwisdom.zueb.UploadFileProvider"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:authorities="com.supwisdom.zueb.UploadFileProvider"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
+        <activity
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:screenOrientation="unspecified"
+            android:configChanges="screenSize|orientation|keyboardHidden"/>
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="tencentnull"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Dialog"
+            android:name="com.supwisdom.superapp.speech.BaiduASRDigitalDialog"
+            android:exported="false"
+            android:screenOrientation="unspecified"
+            android:configChanges="screenLayout|orientation|keyboardHidden">
+            <intent-filter>
+                <action android:name="com.baidu.action.RECOGNIZE_SPEECH"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:name="com.supwisdom.superapp.WakeUpActivity"
+            android:exported="false"
+            android:screenOrientation="unspecified"
+            android:configChanges="screenLayout|orientation|keyboardHidden">
+            <intent-filter>
+                <action android:name="com.baidu.action.RECOGNIZE_SPEECH"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:name="com.supwisdom.superapp.ui.activity.MultiAccountLoginAt"
+            android:exported="false"
+            android:screenOrientation="unspecified"
+            android:configChanges="screenLayout|orientation|keyboardHidden"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="我i经贸"
+            android:name="com.supwisdom.superapp.ui.activity.MiniLoadingActivity"
+            android:screenOrientation="unspecified"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="我i经贸"
+            android:name="com.supwisdom.superapp.ui.activity.PrivacyActivity"
+            android:screenOrientation="unspecified"
+            android:hardwareAccelerated="true"/>
+        <meta-data
+            android:name="com.baidu.speech.APP_ID"
+            android:value="null"/>
+        <meta-data
+            android:name="com.baidu.speech.API_KEY"
+            android:value="null"/>
+        <meta-data
+            android:name="com.baidu.speech.SECRET_KEY"
+            android:value="null"/>
+        <service
+            android:name="com.baidu.speech.VoiceRecognitionService"
+            android:exported="false"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:configChanges="orientation|navigation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:configChanges="orientation|navigation|keyboardHidden"/>
+        <activity
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:name="com.supwisdom.superapp.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"/>
+        <activity-alias
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:name="com.supwisdom.zueb.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:targetActivity="com.supwisdom.superapp.wxapi.WXPayEntryActivity"/>
+        <activity
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:label="我i经贸"
+            android:name="com.supwisdom.superapp.wxapi.WXEntryActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:noHistory="true"/>
+        <activity-alias
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:name="com.supwisdom.zueb.wxapi.WXEntryActivity"
+            android:exported="true"
+            android:targetActivity="com.supwisdom.superapp.wxapi.WXEntryActivity"/>
+        <service
+            android:label="PushService"
+            android:name="com.supwisdom.superapp.service.GeTuiPushService"
+            android:exported="true"
+            android:process=":pushservice"/>
+        <service
+            android:name="com.supwisdom.superapp.service.GetuiIntentService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.alipay.sdk.app.AlipayResultActivity"
+            android:exported="true"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="__alipaysdkdemo__"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="io.dcloud.imagepick.CustomGalleryActivity"
+            android:screenOrientation="unspecified">
+            <intent-filter>
+                <action android:name="io.dcloud.ACTION_PICK"/>
+                <action android:name="io.dcloud.ACTION_MULTIPLE_PICK"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity android:name="com.supwisdom.superapp.ui.activity.BrowserActivity"/>
+        <activity android:name="com.supwisdom.superapp.ui.activity.OpenFileActivity"/>
+        <service android:name="com.amap.api.location.APSService"/>
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="45bfed56e522e9ce75588c3a9adbdac5"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="我i经贸"
+            android:name="com.supwisdom.superapp.ui.activity.PaySuccessAty"
+            android:screenOrientation="unspecified"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="我i经贸"
+            android:name="com.supwisdom.superapp.ui.activity.UseAsSecureActivity"
+            android:screenOrientation="unspecified"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="我i经贸"
+            android:name="com.supwisdom.superapp.ui.activity.PayCodeAty"
+            android:screenOrientation="unspecified"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="我i经贸"
+            android:name="com.supwisdom.superapp.ui.activity.CommonWebViewActivity"
+            android:screenOrientation="unspecified"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="我i经贸"
+            android:name="com.supwisdom.superapp.ui.activity.SecureCertificationActivity"
+            android:screenOrientation="unspecified"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:name="com.supwisdom.superapp.ui.activity.BasicInformationActivity"
+            android:exported="false"
+            android:screenOrientation="unspecified"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:name="com.supwisdom.superapp.ui.activity.MonitorChangePassword"
+            android:exported="false"
+            android:screenOrientation="unspecified"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:name="com.supwisdom.superapp.ui.activity.SecurityMethodActivity"
+            android:exported="false"
+            android:screenOrientation="unspecified"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:name="com.supwisdom.superapp.ui.activity.ServiceEvaluateActivity"
+            android:exported="false"
+            android:screenOrientation="unspecified"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="我i经贸"
+            android:name="com.supwisdom.superapp.ui.activity.OfflineCodeActivity"
+            android:screenOrientation="unspecified"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/Transparent"
+            android:name="com.supwisdom.superapp.ui.activity.AuthorDialogActivity"
+            android:screenOrientation="unspecified"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustPan"
+            android:hardwareAccelerated="true"/>
+        <service android:name="com.supwisdom.superapp.service.LiveService"/>
+        <meta-data
+            android:name="PUSH_APPID"
+            android:value="null"/>
+        <meta-data
+            android:name="GY_APP_ID"
+            android:value="null"/>
+        <meta-data
+            android:name="QQ_APPID"
+            android:value="null"/>
+        <meta-data
+            android:name="WX_APPID"
+            android:value="null"/>
+        <meta-data
+            android:name="WX_SECRET"
+            android:value="null"/>
+        <activity
+            android:theme="@style/UniMPTheme"
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPEntry0"
+            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"
+            android:exported="false"
+            android:process=":unimp0"
+            android:taskAffinity=":unimp0"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:configChanges="fontScale|screenSize|orientation|keyboardHidden|keyboard|mnc|mcc"
+            android:windowSoftInputMode="adjustResize"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/UniMPTheme"
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPEntry1"
+            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"
+            android:exported="false"
+            android:process=":unimp1"
+            android:taskAffinity=":unimp1"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:configChanges="fontScale|screenSize|orientation|keyboardHidden|keyboard|mnc|mcc"
+            android:windowSoftInputMode="adjustResize"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/UniMPTheme"
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPEntry2"
+            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"
+            android:exported="false"
+            android:process=":unimp2"
+            android:taskAffinity=":unimp2"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:configChanges="fontScale|screenSize|orientation|keyboardHidden|keyboard|mnc|mcc"
+            android:windowSoftInputMode="adjustResize"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/UniMPTheme"
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPEntry3"
+            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"
+            android:exported="false"
+            android:process=":unimp3"
+            android:taskAffinity=":unimp3"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:configChanges="fontScale|screenSize|orientation|keyboardHidden|keyboard|mnc|mcc"
+            android:windowSoftInputMode="adjustResize"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/UniMPTheme"
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPEntry4"
+            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"
+            android:exported="false"
+            android:process=":unimp4"
+            android:taskAffinity=":unimp4"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:configChanges="fontScale|screenSize|orientation|keyboardHidden|keyboard|mnc|mcc"
+            android:windowSoftInputMode="adjustResize"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/UniMPTheme"
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPNoRecentsEntry0"
+            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"
+            android:exported="false"
+            android:process=":unimp0"
+            android:taskAffinity=":unimp0"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:configChanges="fontScale|screenSize|orientation|keyboardHidden|keyboard|mnc|mcc"
+            android:windowSoftInputMode="adjustResize"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/UniMPTheme"
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPNoRecentsEntry1"
+            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"
+            android:exported="false"
+            android:process=":unimp1"
+            android:taskAffinity=":unimp1"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:configChanges="fontScale|screenSize|orientation|keyboardHidden|keyboard|mnc|mcc"
+            android:windowSoftInputMode="adjustResize"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/UniMPTheme"
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPNoRecentsEntry2"
+            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"
+            android:exported="false"
+            android:process=":unimp2"
+            android:taskAffinity=":unimp2"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:configChanges="fontScale|screenSize|orientation|keyboardHidden|keyboard|mnc|mcc"
+            android:windowSoftInputMode="adjustResize"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/UniMPTheme"
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPNoRecentsEntry3"
+            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"
+            android:exported="false"
+            android:process=":unimp3"
+            android:taskAffinity=":unimp3"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:configChanges="fontScale|screenSize|orientation|keyboardHidden|keyboard|mnc|mcc"
+            android:windowSoftInputMode="adjustResize"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/UniMPTheme"
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPNoRecentsEntry4"
+            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"
+            android:exported="false"
+            android:process=":unimp4"
+            android:taskAffinity=":unimp4"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:configChanges="fontScale|screenSize|orientation|keyboardHidden|keyboard|mnc|mcc"
+            android:windowSoftInputMode="adjustResize"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/DCloudTheme"
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPActivity0"
+            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"
+            android:exported="false"
+            android:process=":unimp0"
+            android:taskAffinity=":unimp0"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:configChanges="fontScale|smallestScreenSize|screenSize|screenLayout|orientation|keyboardHidden|keyboard|mnc|mcc"
+            android:windowSoftInputMode="adjustResize"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/DCloudTheme"
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPActivity1"
+            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"
+            android:exported="false"
+            android:process=":unimp1"
+            android:taskAffinity=":unimp1"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:configChanges="fontScale|smallestScreenSize|screenSize|screenLayout|orientation|keyboardHidden|keyboard|mnc|mcc"
+            android:windowSoftInputMode="adjustResize"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/DCloudTheme"
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPActivity2"
+            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"
+            android:exported="false"
+            android:process=":unimp2"
+            android:taskAffinity=":unimp2"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:configChanges="fontScale|smallestScreenSize|screenSize|screenLayout|orientation|keyboardHidden|keyboard|mnc|mcc"
+            android:windowSoftInputMode="adjustResize"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/DCloudTheme"
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPActivity3"
+            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"
+            android:exported="false"
+            android:process=":unimp3"
+            android:taskAffinity=":unimp3"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:configChanges="fontScale|smallestScreenSize|screenSize|screenLayout|orientation|keyboardHidden|keyboard|mnc|mcc"
+            android:windowSoftInputMode="adjustResize"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/DCloudTheme"
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPActivity4"
+            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"
+            android:exported="false"
+            android:process=":unimp4"
+            android:taskAffinity=":unimp4"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:configChanges="fontScale|smallestScreenSize|screenSize|screenLayout|orientation|keyboardHidden|keyboard|mnc|mcc"
+            android:windowSoftInputMode="adjustResize"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/UniMPTheme"
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPTopEntry0"
+            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"
+            android:exported="false"
+            android:process=":unimp0"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:configChanges="fontScale|screenSize|orientation|keyboardHidden|keyboard|mnc|mcc"
+            android:windowSoftInputMode="adjustResize"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/UniMPTheme"
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPTopEntry1"
+            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"
+            android:exported="false"
+            android:process=":unimp1"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:configChanges="fontScale|screenSize|orientation|keyboardHidden|keyboard|mnc|mcc"
+            android:windowSoftInputMode="adjustResize"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/UniMPTheme"
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPTopEntry2"
+            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"
+            android:exported="false"
+            android:process=":unimp2"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:configChanges="fontScale|screenSize|orientation|keyboardHidden|keyboard|mnc|mcc"
+            android:windowSoftInputMode="adjustResize"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/UniMPTheme"
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPTopEntry3"
+            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"
+            android:exported="false"
+            android:process=":unimp3"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:configChanges="fontScale|screenSize|orientation|keyboardHidden|keyboard|mnc|mcc"
+            android:windowSoftInputMode="adjustResize"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/UniMPTheme"
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPTopEntry4"
+            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"
+            android:exported="false"
+            android:process=":unimp4"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:configChanges="fontScale|screenSize|orientation|keyboardHidden|keyboard|mnc|mcc"
+            android:windowSoftInputMode="adjustResize"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/DCloudTheme"
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPTopActivity0"
+            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"
+            android:exported="false"
+            android:process=":unimp0"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:configChanges="fontScale|smallestScreenSize|screenSize|screenLayout|orientation|keyboardHidden|keyboard|mnc|mcc"
+            android:windowSoftInputMode="adjustResize"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/DCloudTheme"
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPTopActivity1"
+            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"
+            android:exported="false"
+            android:process=":unimp1"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:configChanges="fontScale|smallestScreenSize|screenSize|screenLayout|orientation|keyboardHidden|keyboard|mnc|mcc"
+            android:windowSoftInputMode="adjustResize"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/DCloudTheme"
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPTopActivity2"
+            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"
+            android:exported="false"
+            android:process=":unimp2"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:configChanges="fontScale|smallestScreenSize|screenSize|screenLayout|orientation|keyboardHidden|keyboard|mnc|mcc"
+            android:windowSoftInputMode="adjustResize"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/DCloudTheme"
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPTopActivity3"
+            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"
+            android:exported="false"
+            android:process=":unimp3"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:configChanges="fontScale|smallestScreenSize|screenSize|screenLayout|orientation|keyboardHidden|keyboard|mnc|mcc"
+            android:windowSoftInputMode="adjustResize"
+            android:hardwareAccelerated="true"/>
+        <activity
+            android:theme="@style/DCloudTheme"
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPTopActivity4"
+            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"
+            android:exported="false"
+            android:process=":unimp4"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:configChanges="fontScale|smallestScreenSize|screenSize|screenLayout|orientation|keyboardHidden|keyboard|mnc|mcc"
+            android:windowSoftInputMode="adjustResize"
+            android:hardwareAccelerated="true"/>
+        <service
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPService0"
+            android:exported="false"
+            android:process=":unimp0"
+            android:stopWithTask="true"/>
+        <service
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPService1"
+            android:exported="false"
+            android:process=":unimp1"
+            android:stopWithTask="true"/>
+        <service
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPService2"
+            android:exported="false"
+            android:process=":unimp2"
+            android:stopWithTask="true"/>
+        <service
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPService3"
+            android:exported="false"
+            android:process=":unimp3"
+            android:stopWithTask="true"/>
+        <service
+            android:name="io.dcloud.feature.sdk.multi.DCUniMPService4"
+            android:exported="false"
+            android:process=":unimp4"
+            android:stopWithTask="true"/>
+        <activity
+            android:theme="@style/DeviceDefault.Light"
+            android:name="io.dcloud.feature.nativeObj.photoview.PhotoActivity"
+            android:exported="false"
+            android:multiprocess="true"
+            android:screenOrientation="behind"
+            android:configChanges="orientation|keyboardHidden"
+            android:noHistory="false"/>
+        <meta-data
+            android:name="MultiProcessCount"
+            android:value="3"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="io.dcloud.ProcessMediator"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"/>
+        <activity
+            android:theme="@style/ThemeNoTitleBar"
+            android:name="io.dcloud.WebviewActivity"
+            android:exported="false"
+            android:multiprocess="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:theme="@style/DeviceDefault.Light"
+            android:name="com.dmcbig.mediapicker.PickerActivity"
+            android:exported="false"
+            android:multiprocess="true"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:theme="@style/DeviceDefault.Light"
+            android:name="com.dmcbig.mediapicker.PreviewActivity"
+            android:exported="false"
+            android:multiprocess="true"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:theme="@style/ImageEditTheme"
+            android:name="io.dcloud.feature.gallery.imageedit.IMGEditActivity"
+            android:exported="false"
+            android:multiprocess="true"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <meta-data
+            android:name="sangfor_sdk_version"
+            android:value="2.2.12.1"/>
+        <provider
+            android:name="com.sangfor.sdk.storageipc.provider.HSProvider"
+            android:enabled="true"
+            android:exported="true"
+            android:authorities="com.supwisdom.zueb.sangfor.ssl.safe.prd"/>
+        <activity android:name="com.sangfor.sdk.sandbox.ui.DisallowShareActivity"/>
+        <activity android:name="com.sangfor.sdk.sandbox.ui.ResolverActivity"/>
+        <activity android:name="com.sangfor.sdk.sandbox.ui.ChooserActivity"/>
+        <activity
+            android:name="com.sangfor.sdk.auth.trustterminal.activity.AddTerminalActivity"
+            android:configChanges="screenSize|orientation"/>
+        <activity
+            android:name="com.sangfor.sdk.auth.trustterminal.activity.OverloadTerminalActivity"
+            android:configChanges="screenSize|orientation"/>
+        <activity
+            android:name="com.sangfor.sdk.auth.trustterminal.activity.TerminalInfoActivity"
+            android:configChanges="screenSize|orientation"/>
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false"/>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:exported="false"
+            android:configChanges="screenSize|orientation|navigation|keyboardHidden"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.alipay.sdk.app.PayResultActivity"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:configChanges="screenSize|orientation|navigation|keyboardHidden"/>
+        <activity
+            android:name="com.alipay.sdk.app.H5OpenAuthActivity"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:configChanges="screenSize|orientation|navigation|keyboardHidden"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.alipay.sdk.app.APayEntranceActivity"
+            android:exported="false"
+            android:configChanges="screenSize|orientation|navigation|keyboardHidden"/>
+        <receiver
+            android:name="com.taobao.weex.WXGlobalEventReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+        <activity
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:name="com.newcapec.virtualcard.activity.QrCodeActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:name="com.newcapec.virtualcard.activity.PaySuccessActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:name="com.newcapec.virtualcard.activity.PasswordActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:name="com.newcapec.virtualcard.activity.MainActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:name="com.newcapec.virtualcard.activity.VirtualCardIntroActivity"
+            android:screenOrientation="portrait"/>
+        <provider
+            android:name="net.grandcentrix.tray.provider.TrayContentProvider"
+            android:exported="false"
+            android:multiprocess="false"
+            android:authorities="com.supwisdom.zueb.tray"/>
+        <activity
+            android:theme="@android:style/Theme.NoDisplay"
+            android:name="androidx.core.google.shortcuts.TrampolineActivity"
+            android:exported="true"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="androidx.core.content.pm.SHORTCUT_LISTENER"/>
+            </intent-filter>
+            <meta-data
+                android:name="androidx.core.content.pm.shortcut_listener_impl"
+                android:value="androidx.core.google.shortcuts.ShortcutInfoChangeListenerImpl"/>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+        <meta-data
+            android:name="GETUI_APPID"
+            android:value="null"/>
+        <meta-data
+            android:name="ZX_CHANNEL_ID"
+            android:value="C01-GEztJH0JLdBC"/>
+        <meta-data
+            android:name="ZX_APPID_GETUI"
+            android:value="913e6a50-c3b6-4989-8ac6-1ecb53649be3"/>
+        <service
+            android:label="NotificationCenter"
+            android:name="com.igexin.sdk.PushService"
+            android:exported="false"
+            android:process=":pushservice"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.igexin.sdk.PushActivity"
+            android:exported="true"
+            android:process=":pushservice"
+            android:excludeFromRecents="true"
+            android:configChanges="screenSize|orientation"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.igexin.sdk.GActivity"
+            android:exported="true"
+            android:process=":pushservice"
+            android:taskAffinity="com.supwisdom.zueb.GActivity"
+            android:excludeFromRecents="true">
+            <intent-filter>
+                <action android:name="com.getui.sdk.action"/>
+            </intent-filter>
+        </activity>
+        <service
+            android:name="com.igexin.sdk.GTIntentService"
+            android:exported="true"/>
+        <service
+            android:name="com.igexin.sdk.GService"
+            android:exported="true"
+            android:process=":pushservice">
+            <intent-filter>
+                <action android:name="com.getui.sdk.action"/>
+            </intent-filter>
+        </service>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.igexin.sdk.GetuiActivity"
+            android:exported="true"
+            android:process=":pushservice"
+            android:excludeFromRecents="true">
+            <intent-filter>
+                <action android:name="com.getui.sdk.action"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.igexin.sdk.PopupActivity"
+            android:exported="false"
+            android:process=":pushservice"
+            android:excludeFromRecents="true"
+            android:configChanges="screenSize|orientation"/>
+        <meta-data
+            android:name="GTSDK_VERSION"
+            android:value="3.3.5.0"/>
+        <meta-data
+            android:name="GT_INSTALL_CHANNEL"
+            android:value="newcapecSuperapp"/>
+        <service
+            android:name="com.getui.gtc.GtcService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.getui.gtc.sdk.service.action"/>
+            </intent-filter>
+        </service>
+        <provider
+            android:name="com.getui.gtc.base.GtcProvider"
+            android:exported="false"
+            android:authorities="com.supwisdom.zueb.getui.gtc.provider"/>
+        <meta-data
+            android:name="com.huawei.hms.client.appid"
+            android:value="null"/>
+        <service
+            android:name="com.igexin.sdk.HmsPushMessageService"
+            android:exported="false"
+            android:process=":pushservice">
+            <intent-filter>
+                <action android:name="com.huawei.push.action.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <receiver
+            android:name="com.huawei.hms.support.api.push.PushMsgReceiver"
+            android:permission="com.supwisdom.zueb.permission.PROCESS_PUSH_MSG"
+            android:directBootAware="true">
+            <intent-filter>
+                <action android:name="com.huawei.intent.action.PUSH_DELAY_NOTIFY"/>
+                <action android:name="com.huawei.intent.action.PUSH"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.huawei.hms.support.api.push.PushReceiver"
+            android:permission="com.supwisdom.zueb.permission.PROCESS_PUSH_MSG"
+            android:directBootAware="true">
+            <intent-filter>
+                <action android:name="com.huawei.android.push.intent.REGISTRATION"/>
+                <action android:name="com.huawei.android.push.intent.RECEIVE"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.huawei.hms.support.api.push.service.HmsMsgService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":pushservice"
+            android:directBootAware="true">
+            <intent-filter>
+                <action android:name="com.huawei.push.msg.NOTIFY_MSG"/>
+                <action android:name="com.huawei.push.msg.PASSBY_MSG"/>
+            </intent-filter>
+        </service>
+        <provider
+            android:name="com.huawei.hms.support.api.push.PushProvider"
+            android:permission="com.supwisdom.zueb.permission.PUSH_PROVIDER"
+            android:readPermission="com.supwisdom.zueb.permission.PUSH_PROVIDER"
+            android:writePermission="com.supwisdom.zueb.permission.PUSH_WRITE_PROVIDER"
+            android:exported="true"
+            android:authorities="com.supwisdom.zueb.huawei.push.provider"/>
+        <meta-data
+            android:name="com.huawei.hms.client.service.name:push"
+            android:value="push:5.3.0.300"/>
+        <meta-data
+            android:name="com.huawei.hms.min_api_level:push:push"
+            android:value="1"/>
+        <meta-data
+            android:name="MIPUSH_SDK_VERSION_CODE"
+            android:value="50602"/>
+        <meta-data
+            android:name="MIPUSH_SDK_VERSION_NAME"
+            android:value="5_6_2-C"/>
+        <meta-data
+            android:name="MIPUSH_APPID"
+            android:value="XM_null"/>
+        <meta-data
+            android:name="MIPUSH_APPKEY"
+            android:value="XM_null"/>
+        <service
+            android:name="com.xiaomi.mipush.sdk.PushMessageHandler"
+            android:permission="com.xiaomi.xmsf.permission.MIPUSH_RECEIVE"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":pushservice"/>
+        <service
+            android:name="com.xiaomi.mipush.sdk.MessageHandleService"
+            android:enabled="true"
+            android:process=":pushservice"/>
+        <receiver
+            android:name="com.igexin.sdk.MiuiPushReceiver"
+            android:exported="true"
+            android:process=":pushservice">
+            <intent-filter>
+                <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.xiaomi.mipush.MESSAGE_ARRIVED"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.xiaomi.mipush.ERROR"/>
+            </intent-filter>
+        </receiver>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.xiaomi.mipush.sdk.NotificationClickedActivity"
+            android:enabled="true"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance">
+            <meta-data
+                android:name="supportStyle"
+                android:value="scene|voip"/>
+        </activity>
+        <meta-data
+            android:name="OPPOPUSH_APPKEY"
+            android:value="OP_null"/>
+        <meta-data
+            android:name="OPPOPUSH_APPSECRET"
+            android:value="OP_null"/>
+        <service
+            android:name="com.igexin.sdk.OppoPushService"
+            android:permission="com.coloros.mcs.permission.SEND_MCS_MESSAGE"
+            android:process=":pushservice">
+            <intent-filter>
+                <action android:name="com.coloros.mcs.action.RECEIVE_MCS_MESSAGE"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.igexin.sdk.OppoAppPushService"
+            android:permission="com.heytap.mcs.permission.SEND_PUSH_MESSAGE"
+            android:process=":pushservice">
+            <intent-filter>
+                <action android:name="com.heytap.mcs.action.RECEIVE_MCS_MESSAGE"/>
+                <action android:name="com.heytap.msp.push.RECEIVE_MCS_MESSAGE"/>
+            </intent-filter>
+        </service>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.vivo.push.sdk.LinkProxyClientActivity"
+            android:exported="false"
+            android:process=":pushservice"
+            android:screenOrientation="portrait"/>
+        <meta-data
+            android:name="com.vivo.push.api_key"
+            android:value="null"/>
+        <meta-data
+            android:name="com.vivo.push.app_id"
+            android:value="null"/>
+        <receiver
+            android:name="com.igexin.sdk.VivoPushMessageReceiver"
+            android:process=":pushservice">
+            <intent-filter>
+                <action android:name="com.vivo.pushclient.action.RECEIVE"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.vivo.push.sdk.service.CommandClientService"
+            android:exported="true"
+            android:process=":pushservice"/>
+        <meta-data
+            android:name="com.hihonor.push.sdk_version"
+            android:value="7.0.61.303"/>
+        <provider
+            android:name="com.huawei.hms.aaid.InitProvider"
+            android:exported="false"
+            android:authorities="com.supwisdom.zueb.aaidinitprovider"
+            android:initOrder="500"/>
+        <meta-data
+            android:name="com.huawei.hms.client.service.name:opendevice"
+            android:value="opendevice:5.1.1.303"/>
+        <meta-data
+            android:name="com.huawei.hms.min_api_level:opendevice:push"
+            android:value="1"/>
+        <meta-data
+            android:name="com.huawei.hms.client.service.name:base"
+            android:value="base:5.3.0.301"/>
+        <meta-data
+            android:name="com.huawei.hms.min_api_level:base:hmscore"
+            android:value="1"/>
+        <meta-data
+            android:name="availableLoaded"
+            android:value="yes"/>
+        <provider
+            android:name="com.huawei.hms.update.provider.UpdateProvider"
+            android:exported="false"
+            android:authorities="com.supwisdom.zueb.hms.update.provider"
+            android:grantUriPermissions="true"/>
+        <provider
+            android:name="com.huawei.hms.device.provider.CheckHmsProvider"
+            android:exported="false"
+            android:authorities="com.supwisdom.zueb.hms.device.validate.spoofprovider"
+            android:grantUriPermissions="false"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.huawei.updatesdk.service.otaupdate.AppUpdateActivity"
+            android:exported="false"
+            android:configChanges="screenSize|orientation">
+            <meta-data
+                android:name="hwc-theme"
+                android:value="androidhwext:style/Theme.Emui.Translucent.NoTitleBar"/>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.huawei.updatesdk.support.pm.PackageInstallerActivity"
+            android:exported="false"
+            android:configChanges="screenSize|orientation|keyboardHidden">
+            <meta-data
+                android:name="hwc-theme"
+                android:value="androidhwext:style/Theme.Emui.Translucent"/>
+        </activity>
+        <provider
+            android:name="com.huawei.updatesdk.fileprovider.UpdateSdkFileProvider"
+            android:exported="false"
+            android:authorities="com.supwisdom.zueb.updateSdk.fileProvider"
+            android:grantUriPermissions="true"/>
+        <activity
+            android:theme="@style/Base_Translucent"
+            android:name="com.huawei.hms.activity.BridgeActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:screenOrientation="behind"
+            android:configChanges="fontScale|layoutDirection|smallestScreenSize|screenSize|uiMode|screenLayout|orientation|locale"
+            android:hardwareAccelerated="true">
+            <meta-data
+                android:name="hwc-theme"
+                android:value="androidhwext:style/Theme.Emui.Translucent"/>
+        </activity>
+        <activity
+            android:name="com.huawei.hms.activity.EnableServiceActivity"
+            android:exported="false"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation|keyboardHidden"/>
+        <provider
+            android:name="com.huawei.agconnect.core.provider.AGConnectInitializeProvider"
+            android:exported="false"
+            android:authorities="com.supwisdom.zueb.AGCInitializeProvider"/>
+        <service
+            android:name="com.huawei.agconnect.core.ServiceDiscovery"
+            android:exported="false"/>
+    </application>
+</manifest>
