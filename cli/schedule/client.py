@@ -75,7 +75,9 @@ class JWXTClient:
         self.encrypt_key = self._extract_js_var(script, "G_ENCRYPT") or self.encrypt_key
         self.login_id = self._extract_js_var(script, "G_LOGIN_ID") or self.login_id
         self.user_type = self._extract_js_var(script, "G_USER_TYPE") or self.user_type
-        self.school_code = self._extract_js_var(script, "G_SCHOOL_CODE") or self.school_code
+        self.school_code = (
+            self._extract_js_var(script, "G_SCHOOL_CODE") or self.school_code
+        )
         user_code = self._extract_js_var(script, "G_USER_CODE")
 
         if not self.user_type:
@@ -88,7 +90,9 @@ class JWXTClient:
     def _extract_js_var(script: str, name: str) -> str:
         # SetRootPath4H5.jsp uses: var NAME = 'value';
         # Keep regex tolerant to spaces and quote style.
-        match = re.search(rf"var\s+{re.escape(name)}\s*=\s*['\"]([^'\"]*)['\"]\s*;", script)
+        match = re.search(
+            rf"var\s+{re.escape(name)}\s*=\s*['\"]([^'\"]*)['\"]\s*;", script
+        )
         return match.group(1) if match else ""
 
     @staticmethod
@@ -124,7 +128,9 @@ class JWXTClient:
         #   remove chars at 1-index positions 3,10,17,25
         #   return md5(filtered)
         h1 = hashlib.md5(plain.encode("utf-8")).hexdigest()
-        filtered = "".join(ch for i, ch in enumerate(h1, start=1) if i not in {3, 10, 17, 25})
+        filtered = "".join(
+            ch for i, ch in enumerate(h1, start=1) if i not in {3, 10, 17, 25}
+        )
         return hashlib.md5(filtered.encode("utf-8")).hexdigest()
 
     @classmethod
@@ -216,7 +222,9 @@ class JWXTClient:
         data = self.get_semester_list()
         items = data.get("xnxq", [])
         if not isinstance(items, list):
-            raise JWXTClientError("unexpected semester list response: xnxq is not a list")
+            raise JWXTClientError(
+                "unexpected semester list response: xnxq is not a list"
+            )
         return [item for item in items if isinstance(item, dict)]
 
     def resolve_semester_code(self, year: int, term: int) -> str:
@@ -247,7 +255,9 @@ class JWXTClient:
             if dm and year_label in mc and term_label in mc:
                 return dm
 
-        raise JWXTClientError(f"cannot resolve semester code for year={year}, term={term}")
+        raise JWXTClientError(
+            f"cannot resolve semester code for year={year}, term={term}"
+        )
 
     def get_semester_list(self) -> dict:
         """
@@ -261,7 +271,9 @@ class JWXTClient:
         """
         return self._jw_apply_get("/wap/getxnxq_xl.action", self._STEP_XNXQ, {})
 
-    def get_course_schedule(self, semester_code: str | None = None, week: str | None = None) -> dict:
+    def get_course_schedule(
+        self, semester_code: str | None = None, week: str | None = None
+    ) -> dict:
         """
         Get course schedule for specified semester.
 
@@ -284,7 +296,9 @@ class JWXTClient:
 
         if semester_code is None:
             if not current_dm:
-                raise JWXTClientError("cannot determine current semester from getxnxq_xl")
+                raise JWXTClientError(
+                    "cannot determine current semester from getxnxq_xl"
+                )
             semester_code = current_dm
             if not semester_code:
                 raise JWXTClientError("current semester has empty dm")
@@ -296,4 +310,6 @@ class JWXTClient:
             week = "" if semester_code == current_dm else "1"
 
         payload = {"xnxq": semester_code, "week": week}
-        return self._jw_apply_get("/wap/mycourseschedule.action", self._STEP_DETAIL, payload)
+        return self._jw_apply_get(
+            "/wap/mycourseschedule.action", self._STEP_DETAIL, payload
+        )

@@ -6,4 +6,22 @@ I have developed an Android application and packaged it into an APK file. Now I 
 ## Use Python to implement
 - `.venv/bin/python`
 - `uv pip install` to install package
-- `httpx` for http request
+- Dependencies: `httpx click cryptography`
+- Run CLI: `.venv/bin/python -m cli`
+
+## CLI Structure
+```
+cli/
+├── __main__.py       # Entry point
+├── main.py           # Click group: login, status, logout, schedule
+├── config.py         # URLs, constants, paths
+├── auth/
+│   ├── crypto.py     # RSA encrypt (ref: supwisdom/bn1.java)
+│   ├── client.py     # HTTP wrapper (ref: supwisdom/mj1.java)
+│   ├── login.py      # 4-step login flow (ref: ui/activity/LoginActivity.java)
+│   └── token.py      # Session persistence (~/.config/zueb-cli/session.json)
+└── schedule/
+    ├── sso.py        # CAS SSO: JWT → JSESSIONID
+    ├── client.py     # JWXT HTTP client with jw_apply encryption
+    └── service.py    # Orchestrates schedule fetch flow
+```

@@ -34,7 +34,9 @@ def get_sso_credentials(id_token: str) -> dict:
     }
 
     try:
-        with httpx.Client(headers=headers, follow_redirects=True, timeout=30.0) as client:
+        with httpx.Client(
+            headers=headers, follow_redirects=True, timeout=30.0
+        ) as client:
             resp = client.get(WEBHR_BASE_URL + "webhrN2SSOAPP", params=params)
             resp.raise_for_status()
     except httpx.HTTPError as exc:

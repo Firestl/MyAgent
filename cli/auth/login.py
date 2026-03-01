@@ -87,7 +87,7 @@ def login(username: str, password: str) -> dict:
         user_data = {}
         try:
             user_resp = client.get_user_info(id_token)
-            user_data = (user_resp.get("data") or {})
+            user_data = user_resp.get("data") or {}
         except Exception:
             pass
 

@@ -12,7 +12,7 @@ def print_schedule(data: dict) -> None:
     qssj = data.get("qssj", "")
     jssj = data.get("jssj", "")
 
-    click.echo(f"\n{xn}-{int(xn)+1}学年 {xq_name}  (第{zc}周，{qssj} ~ {jssj})\n")
+    click.echo(f"\n{xn}-{int(xn) + 1}学年 {xq_name}  (第{zc}周，{qssj} ~ {jssj})\n")
 
     weekdays = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
     has_any = False
@@ -27,8 +27,8 @@ def print_schedule(data: dict) -> None:
             name = c.get("kcmc", "")
             room = c.get("skdd", "")
             teacher = c.get("rkjs", "")
-            periods = c.get("jcxx", "")   # e.g., "7-8"
-            weeks = c.get("skzs", "")     # e.g., "1-5周"
+            periods = c.get("jcxx", "")  # e.g., "7-8"
+            weeks = c.get("skzs", "")  # e.g., "1-5周"
             campus = c.get("xq", "")
 
             line = f"    {periods}节  {name}"

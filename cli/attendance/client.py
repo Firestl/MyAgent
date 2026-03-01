@@ -64,7 +64,7 @@ class WebHRClient:
         )
         data = _parse_json_response(response, "appLoginsso")
 
-        token = (((data.get("data") or {}).get("data") or {}).get("token"))
+        token = ((data.get("data") or {}).get("data") or {}).get("token")
         if not token:
             raise WebHRError("appLoginsso response missing data.data.token")
         return token

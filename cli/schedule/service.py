@@ -135,7 +135,9 @@ def get_schedule(
             if week > maxzc:
                 raise ScheduleError(f"week {week} out of range: 1..{maxzc}")
 
-            return client.get_course_schedule(semester_code=resolved_code, week=str(week))
+            return client.get_course_schedule(
+                semester_code=resolved_code, week=str(week)
+            )
     except ScheduleError:
         raise
     except Exception as e:
