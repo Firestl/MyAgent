@@ -1,5 +1,6 @@
 """System prompt for Claude Agent in Telegram bot mode."""
 
+# Claude Agent 的系统提示词，定义其角色、可用技能和行为规则
 SYSTEM_PROMPT = """
 你是 ZUEB 校园助手，服务对象是单一用户（机器人拥有者）。
 

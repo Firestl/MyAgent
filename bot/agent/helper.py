@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 """Helper CLI that wraps CLI service layer for Claude Skills.
 
-Claude invokes these subcommands via Bash from SKILL.md instructions.
-All output is JSON to stdout; errors are {"ok": false, "error": "..."}.
+Claude 通过 SKILL.md 中的 Bash 指令调用这些子命令。
+所有输出均为 JSON 格式（stdout），错误也以 {"ok": false, "error": "..."} 返回。
 """
 
 from __future__ import annotations
@@ -12,15 +12,17 @@ import sys
 
 import click
 
-# Ensure project root is importable when invoked directly.
+# 将项目根目录加入 sys.path，确保直接执行时也能正确导入 cli/ 模块
 sys.path.insert(0, str(__import__("pathlib").Path(__file__).resolve().parents[2]))
 
 
 def _json_out(data: dict) -> None:
+    """将字典序列化为 JSON 输出到 stdout。"""
     click.echo(json.dumps(data, ensure_ascii=False))
 
 
 def _error_out(message: str) -> None:
+    """输出错误 JSON 并以非零状态码退出。"""
     _json_out({"ok": False, "error": message})
     sys.exit(1)
 
@@ -46,6 +48,7 @@ def login(username: str, password: str) -> None:
     except Exception as exc:
         _error_out(f"登录异常：{exc}")
 
+    # 过滤敏感字段（密码、token 等），防止通过 JSON 输出泄露
     user = result.get("user") if isinstance(result.get("user"), dict) else {}
     safe_user = {
         k: v
@@ -60,6 +63,7 @@ def status() -> None:
     """Show current login status."""
     from cli.auth.token import load_session
 
+    # 从本地会话文件读取登录状态
     session = load_session()
     if not session or not session.get("id_token"):
         _json_out({"ok": True, "logged_in": False, "message": "未登录"})
@@ -106,6 +110,7 @@ def schedule(
     id_token = session["id_token"]
 
     try:
+        # --list 模式：仅返回可选学期列表
         if list_semesters:
             semesters = get_available_semesters(id_token)
             _json_out({"ok": True, "semesters": semesters})

@@ -1,4 +1,8 @@
-"""Stateful Claude SDK client manager for Telegram chat flow."""
+"""Stateful Claude SDK client manager for Telegram chat flow.
+
+管理一个持久的 ClaudeSDKClient 实例，提供连接/断开/查询接口。
+所有操作通过异步锁保证线程安全，查询支持流式接收和超时重连。
+"""
 
 from __future__ import annotations
 
@@ -16,9 +20,9 @@ from claude_agent_sdk import (
 
 from bot.agent.prompts import SYSTEM_PROMPT
 
-# Project root where .claude/skills/ lives.
+# 项目根目录，SDK 据此查找 .claude/skills/ 等资源
 _PROJECT_CWD = "/home/lsl/Projects/zueb-app"
-# Guardrail for streaming response completion.
+# 流式响应的最长等待时间（秒），防止 SDK 永久挂起
 _RESPONSE_TIMEOUT_SECONDS = 45
 
 logger = logging.getLogger(__name__)
@@ -29,16 +33,16 @@ class AgentManagerError(Exception):
 
 
 class AgentManager:
-    """Manage one persistent ClaudeSDKClient for a single Telegram owner."""
+    """为单个 Telegram 机器人拥有者管理一个持久的 ClaudeSDKClient 实例。"""
 
     def __init__(self) -> None:
         self._client: ClaudeSDKClient | None = None
-        self._lock = asyncio.Lock()
+        self._lock = asyncio.Lock()  # 所有连接/查询操作的互斥锁
         self._session_id = "telegram-owner"
 
     @staticmethod
     def _build_options() -> ClaudeAgentOptions:
-        """Build SDK options used by both initial connect and reconnect."""
+        """构建 SDK 配置项，初始连接和重连时复用。"""
         return ClaudeAgentOptions(
             system_prompt=SYSTEM_PROMPT,
             cwd=_PROJECT_CWD,
@@ -49,7 +53,7 @@ class AgentManager:
         )
 
     async def _connect_locked(self) -> None:
-        """Create and connect a client while holding the manager lock."""
+        """在持有锁的前提下创建并连接客户端（幂等：已连接则跳过）。"""
         if self._client is not None:
             return
 
@@ -60,10 +64,10 @@ class AgentManager:
         logger.info("ClaudeSDKClient connected")
 
     async def _reconnect_locked(self) -> None:
-        """Reset transport state after a stalled/failed stream.
+        """流式响应超时或失败后重建客户端。
 
-        We rebuild the SDK client instead of trying to reuse a possibly broken stream.
-        This keeps future queries healthy after timeout or protocol-level failures.
+        不复用可能已损坏的连接，而是销毁旧客户端、重新创建，
+        确保后续查询不受上次失败影响。
         """
         logger.warning("Reconnecting ClaudeSDKClient")
         old_client = self._client
@@ -105,20 +109,22 @@ class AgentManager:
 
             client = self._client
             try:
+                # 向 Claude 发送用户提问
                 await client.query(prompt, session_id=self._session_id)
 
                 parts: list[str] = []
-                # The SDK stream may wait forever if a terminal ResultMessage is
-                # never emitted, so enforce a hard timeout here.
+                # 流式接收响应，设置硬超时防止 SDK 永久阻塞
                 async with asyncio.timeout(_RESPONSE_TIMEOUT_SECONDS):
                     async for msg in client.receive_response():
                         if isinstance(msg, AssistantMessage):
+                            # 从助手消息中提取所有文本块
                             for block in msg.content:
                                 if isinstance(block, TextBlock):
                                     chunk = block.text.strip()
                                     if chunk:
                                         parts.append(chunk)
                         elif isinstance(msg, ResultMessage):
+                            # 若未收到文本块，则取最终结果作为兜底
                             if not parts and msg.result:
                                 result_text = msg.result.strip()
                                 if result_text:
@@ -137,6 +143,7 @@ class AgentManager:
                 )
                 return "\n".join(parts).strip()
             except TimeoutError as exc:
+                # 超时后尝试重连，避免后续查询受损坏连接影响
                 elapsed_ms = int((perf_counter() - started_at) * 1000)
                 logger.warning("Claude query timeout: elapsed_ms=%s", elapsed_ms)
                 try:
