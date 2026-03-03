@@ -45,11 +45,17 @@ class _QueryRequest:
 
 
 @dataclass(slots=True)
+class _ResetRequest:
+    session_scope: str
+    future: asyncio.Future[None]
+
+
+@dataclass(slots=True)
 class _ShutdownRequest:
     future: asyncio.Future[None]
 
 
-_Request = _QueryRequest | _ShutdownRequest
+_Request = _QueryRequest | _ResetRequest | _ShutdownRequest
 
 
 class AgentManager:
@@ -179,6 +185,13 @@ class AgentManager:
                     if not request.future.done():
                         request.future.set_result(None)
                     break
+
+                if isinstance(request, _ResetRequest):
+                    logger.info("Resetting Claude client for session_scope=%s", request.session_scope)
+                    client = await self._reconnect_client(client)
+                    if not request.future.done():
+                        request.future.set_result(None)
+                    continue
 
                 if request.future.cancelled():
                     continue
@@ -339,13 +352,28 @@ class AgentManager:
         if not scope:
             raise AgentManagerError("会话范围不能为空。")
 
+        loop = asyncio.get_running_loop()
+        future: asyncio.Future[None] = loop.create_future()
+
         async with self._lock:
             previous_session_id = self._session_ids.pop(scope, None)
+            queue = self._request_queue
+            worker = self._worker_task
+            if queue is None or worker is None or worker.done():
+                logger.info(
+                    "Claude session reset (no active worker): session_scope=%s previous_session_id=%s",
+                    scope,
+                    previous_session_id,
+                )
+                return
+            await queue.put(_ResetRequest(session_scope=scope, future=future))
+
         logger.info(
             "Claude session reset: session_scope=%s previous_session_id=%s",
             scope,
             previous_session_id,
         )
+        await future
 
     async def query(self, text: str, *, session_scope: str = "default") -> str:
         prompt = text.strip()
