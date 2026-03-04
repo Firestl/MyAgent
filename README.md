@@ -182,6 +182,13 @@ NIGHTLY_CHECK_PROMPT=查看是否打卡
 .venv/bin/python bot/agent/helper.py attendance
 ```
 
+### 课表具体上课时间（Skill 推理）
+
+- `bot/agent/helper.py schedule` 只返回原始 `schedule` 数据，不做地点->时间的代码映射。
+- 机器人通过 `.claude/skills/zueb-schedule/SKILL.md` 内的 markdown 错峰时间表推理具体上课时间。
+- 推理时基于 `skdd`（上课地点）判定批次，再基于 `jcxx`（节次）映射到具体时段。
+- 若地点无法匹配批次，机器人会明确提示“暂无法确认精确时间”，并继续展示原始节次信息。
+
 ## 每晚自动打卡检查推送
 
 - 机器人进程启动后会在后台调度每日任务，不需要额外 `cron`。

@@ -25,3 +25,9 @@ cli/
     ├── client.py     # JWXT HTTP client with jw_apply encryption
     └── service.py    # Orchestrates schedule fetch flow
 ```
+
+## Bot Skill Rule (Schedule Time)
+
+- For Telegram schedule replies, derive concrete class time in `.claude/skills/zueb-schedule/SKILL.md`.
+- Use markdown-table rules (location batch + period mapping) to infer times from `skdd` and `jcxx`.
+- Do not implement location-to-time mapping logic in Python code unless explicitly requested.
