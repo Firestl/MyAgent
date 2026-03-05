@@ -7,8 +7,10 @@ Claude 通过 SKILL.md 中的 Bash 指令调用这些子命令。
 
 from __future__ import annotations
 
+from datetime import datetime
 import json
 import sys
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 import click
 
@@ -143,6 +145,45 @@ def attendance() -> None:
         _error_out(str(exc))
     except Exception as exc:
         _error_out(f"考勤查询异常：{exc}")
+
+
+@cli.command("datetime")
+@click.option(
+    "--timezone",
+    "timezone_name",
+    default="Asia/Shanghai",
+    show_default=True,
+    help="IANA timezone, e.g. Asia/Shanghai",
+)
+def datetime_info(timezone_name: str) -> None:
+    """Query current date/time with deterministic weekday."""
+    try:
+        timezone = ZoneInfo(timezone_name)
+    except ZoneInfoNotFoundError:
+        _error_out(f"无效时区：{timezone_name}")
+    except Exception as exc:
+        _error_out(f"时区解析失败：{exc}")
+
+    now = datetime.now(timezone)
+    weekday_cn = [
+        "星期一",
+        "星期二",
+        "星期三",
+        "星期四",
+        "星期五",
+        "星期六",
+        "星期日",
+    ][now.weekday()]
+    _json_out({
+        "ok": True,
+        "timezone": timezone_name,
+        "iso_datetime": now.isoformat(timespec="seconds"),
+        "date": now.strftime("%Y-%m-%d"),
+        "time": now.strftime("%H:%M:%S"),
+        "weekday_index": now.isoweekday(),
+        "weekday_cn": weekday_cn,
+        "weekday_en": now.strftime("%A"),
+    })
 
 
 if __name__ == "__main__":
