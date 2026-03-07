@@ -63,10 +63,11 @@ def create_chat_router(agent_manager: AgentManager) -> Router:
         started_at = perf_counter()
         try:
             # 发送"正在输入"状态，让用户知道机器人在处理中
-            await message.bot.send_chat_action(
-                chat_id=message.chat.id,
-                action=ChatAction.TYPING,
-            )
+            if message.bot:
+                await message.bot.send_chat_action(
+                    chat_id=message.chat.id,
+                    action=ChatAction.TYPING,
+                )
             # 同一 chat 复用同一个 Agent session，保留多轮上下文
             reply = await agent_manager.query(
                 text,

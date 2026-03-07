@@ -15,6 +15,7 @@ import logging
 import uuid
 
 from cli.config import DEVICE_FILE, TOKEN_FILE
+from cli.types import SessionData
 
 logger = logging.getLogger(__name__)
 
@@ -52,7 +53,7 @@ def save_session(id_token: str, username: str, device_id: str) -> None:
     logger.info("Session saved for user=%s", username)
 
 
-def load_session() -> dict | None:
+def load_session() -> SessionData | None:
     """Load the saved session from TOKEN_FILE.
 
     Returns the session dict, or None if the user is not logged in.
@@ -61,7 +62,11 @@ def load_session() -> dict | None:
     if TOKEN_FILE.exists():
         data = json.loads(TOKEN_FILE.read_text())
         logger.debug("Session loaded for user=%s", data.get("username"))
-        return data
+        return SessionData(
+            id_token=str(data["id_token"]),
+            username=str(data["username"]),
+            device_id=str(data["device_id"]),
+        )
     logger.debug("No session file found")
     return None
 

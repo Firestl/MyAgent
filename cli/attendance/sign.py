@@ -23,6 +23,8 @@ import time
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding, rsa
 
+from cli.types import SignatureResult
+
 logger = logging.getLogger(__name__)
 
 
@@ -51,7 +53,7 @@ _PRIVATE_KEY = serialization.load_pem_private_key(
 )
 
 
-def generate_signature(md5str: str, user_code: str) -> dict:
+def generate_signature(md5str: str, user_code: str) -> SignatureResult:
     """Sign a WebHR API request payload with RSA-SHA256.
 
     The signature is required for both the appLoginsso (get token) and

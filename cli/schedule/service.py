@@ -6,6 +6,7 @@ import logging
 
 from cli.schedule.client import JWXTClient
 from cli.schedule.sso import SSOError, get_jwxt_session
+from cli.types import JSONObject, ScheduleData, SemesterItem
 
 logger = logging.getLogger(__name__)
 
@@ -14,7 +15,7 @@ class ScheduleError(Exception):
     """Course schedule operation error."""
 
 
-def _decode_token_payload(id_token: str) -> dict:
+def _decode_token_payload(id_token: str) -> JSONObject:
     """Best-effort JWT payload decode without signature verification.
 
     Args:
@@ -54,7 +55,8 @@ def _extract_login_id_from_token(id_token: str) -> str:
     if not payload:
         return ""
 
-    login_id = payload.get("ATTR_userNo") or payload.get("sub") or ""
+    raw_id = payload.get("ATTR_userNo") or payload.get("sub") or ""
+    login_id = raw_id if isinstance(raw_id, str) else str(raw_id)
     logger.debug("Extracted login_id=%s from token", login_id)
     return login_id
 
@@ -120,7 +122,7 @@ def _build_client(id_token: str) -> JWXTClient:
     )
 
 
-def get_available_semesters(id_token: str) -> list[dict]:
+def get_available_semesters(id_token: str) -> list[SemesterItem]:
     """Get selectable semester items from getxnxq_xl.
 
     Args:
@@ -148,7 +150,7 @@ def get_schedule(
     year: int | None = None,
     term: int | None = None,
     week: int | None = None,
-) -> dict:
+) -> ScheduleData:
     """
     Fetch schedule with one of:
     - default current semester/week behavior
@@ -205,6 +207,6 @@ def get_schedule(
         raise ScheduleError(f"Failed to fetch schedule: {e}")
 
 
-def get_current_schedule(id_token: str) -> dict:
+def get_current_schedule(id_token: str) -> ScheduleData:
     """Backward-compatible alias of get_schedule(id_token)."""
     return get_schedule(id_token)

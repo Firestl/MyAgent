@@ -18,6 +18,7 @@ from urllib.parse import parse_qs, urlparse
 import httpx
 
 from cli.config import DEFAULT_HEADERS, WEBHR_BASE_URL
+from cli.types import SSOCredentials
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +30,7 @@ class SSOError(Exception):
     pass
 
 
-def _extract_query_value(query_params: dict, key: str) -> str:
+def _extract_query_value(query_params: dict[str, list[str]], key: str) -> str:
     """Safely extract the first value for a query parameter key.
 
     Returns an empty string if the key is absent or has no values,
@@ -41,7 +42,7 @@ def _extract_query_value(query_params: dict, key: str) -> str:
     return values[0]
 
 
-def get_sso_credentials(id_token: str) -> dict:
+def get_sso_credentials(id_token: str) -> SSOCredentials:
     """Exchange the CAS id_token for WebHR SSO credentials.
 
     Follows the redirect chain from webhrN2SSOAPP to the attendance app page.

@@ -2,8 +2,10 @@
 
 import click
 
+from cli.types import ScheduleData, SemesterItem
 
-def print_schedule(data: dict) -> None:
+
+def print_schedule(data: ScheduleData) -> None:
     """Render a /wap/mycourseschedule.action response for terminal output."""
     xn = data.get("xn", "")
     xq = data.get("xq", "")
@@ -54,7 +56,7 @@ def print_schedule(data: dict) -> None:
             click.echo(f"  - {item.get('value', '')}")
 
 
-def print_semester_list(semesters: list[dict]) -> None:
+def print_semester_list(semesters: list[SemesterItem]) -> None:
     """Print selectable semesters from getxnxq_xl."""
     if not semesters:
         click.echo("No semester data returned.")
