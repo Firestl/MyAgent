@@ -6,3 +6,5 @@ services:
     volumes:
       # Persist .claude/ skills so container can access SKILL.md files
       - ./.claude:/app/.claude:ro
+      # SSH config for WOL (ssh openwrt)
+      - ~/.ssh:/home/appuser/.ssh:ro
