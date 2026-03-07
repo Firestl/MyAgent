@@ -5,6 +5,8 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+RUN useradd --create-home appuser
+COPY --chown=appuser:appuser . .
+USER appuser
 
 CMD ["python", "-m", "bot"]
