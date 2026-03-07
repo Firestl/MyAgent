@@ -1,8 +1,0 @@
-package io.dcloud.common.DHInterface;
-
-/* JADX INFO: loaded from: classes2.dex */
-public interface IPdrModule {
-    String execute(String str, Object obj);
-
-    void onDestroy();
-}

@@ -1,5 +1,7 @@
+# Reverse-engineering reference (no longer tracked)
+GradleProject/
+
 # Build output
-GradleProject/build/
 .gradle/
 *.class
 *.jar

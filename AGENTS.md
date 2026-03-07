@@ -1,32 +1,47 @@
-# Project Introduction
-I have developed an Android application and packaged it into an APK file. Now I intend to encapsulate the core logic into the form of a CLI tool. Your task is to carry out development based on Gradle java code.
+# MyAgent — Personal AI Agent
 
-- `GradleProject/src/main/java/com/supwisdom/superapp` Foucus on this folder
+Telegram bot powered by Claude Agent SDK. Acts as a personal assistant for campus operations (ZUEB) and general-purpose tasks. Extensible via Skills (Markdown-based tool definitions).
 
-## Use Python to implement
-- `.venv/bin/python`
-- `uv pip install` to install package
-- Dependencies: `httpx click cryptography`
+## Architecture
+
+```
+Telegram (aiogram) → Claude Agent SDK → Skills (.claude/skills/) → helper.py (JSON bridge) → CLI services
+```
+
+| Directory | Purpose |
+|-----------|---------|
+| `bot/` | Telegram bot: agent management, handlers, nightly scheduler |
+| `cli/` | Standalone CLI & service layer (also called by bot via `bot/agent/helper.py`) |
+| `.claude/skills/` | Skill definitions — Claude auto-discovers these, no code changes needed |
+
+## Development
+
+- Python: `.venv/bin/python`
+- Install deps: `uv pip install -r requirements.txt`
 - Run CLI: `.venv/bin/python -m cli`
+- Run Bot: `.venv/bin/python -m bot`
+- Tests: `.venv/bin/python -m pytest tests/`
 
-## CLI Structure
-```
-cli/
-├── __main__.py       # Entry point
-├── main.py           # Click group: login, status, logout, schedule
-├── config.py         # URLs, constants, paths
-├── auth/
-│   ├── crypto.py     # RSA encrypt (ref: supwisdom/bn1.java)
-│   ├── client.py     # HTTP wrapper (ref: supwisdom/mj1.java)
-│   ├── login.py      # 4-step login flow (ref: ui/activity/LoginActivity.java)
-│   └── token.py      # Session persistence (~/.config/zueb-cli/session.json)
-└── schedule/
-    ├── sso.py        # CAS SSO: JWT → JSESSIONID
-    ├── client.py     # JWXT HTTP client with jw_apply encryption
-    └── service.py    # Orchestrates schedule fetch flow
-```
+## Code Conventions
 
-## Bot Skill Rule (Schedule Time)
+- CLI uses `click`; bot uses `aiogram>=3`
+- Helper output is strict JSON: `{"ok": true, ...}` or `{"ok": false, "error": "..."}`
+- Sensitive fields (password, token) must be filtered from helper output
+- All POST params for ZUEB APIs are URL query string (`@Query`), NOT request body
+
+## Extending the Agent
+
+To add a new capability:
+1. Add service logic in `cli/` (new module or extend existing)
+2. Add a subcommand in `bot/agent/helper.py` (JSON bridge)
+3. Create a Skill file at `.claude/skills/<name>/SKILL.md`
+4. Bot auto-discovers new skills — no handler changes needed
+
+## ZUEB Campus Module
+
+Wraps the campus Android app's APIs.
+
+### Bot Skill Rule (Schedule Time)
 
 - For Telegram schedule replies, derive concrete class time in `.claude/skills/zueb-schedule/SKILL.md`.
 - Use markdown-table rules (location batch + period mapping) to infer times from `skdd` and `jcxx`.
