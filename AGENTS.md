@@ -14,8 +14,9 @@ Telegram (aiogram) → Claude Agent SDK → Skills (.claude/skills/) → helper.
 | `cli/` | Standalone CLI & service layer (also called by bot via `bot/agent/helper.py`) |
 | `.claude/skills/` | Skill definitions — Claude auto-discovers these, no code changes needed |
 
-## Development
+## Development & Deployment
 
+**本地开发**：
 - Python: `.venv/bin/python`
 - Install deps: `uv pip install -r requirements.txt`
 - Run CLI: `.venv/bin/python -m cli`
