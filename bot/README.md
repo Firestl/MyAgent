@@ -32,7 +32,7 @@
 | `Dispatcher` | Web 框架的路由分发器 | 接收 Telegram 推送的消息事件，按规则分发给不同的处理函数 |
 | `Router` | 路由组 | 把一组相关的消息处理函数归到一起，类似 Flask 的 Blueprint |
 | `Middleware` | 中间件 | 在消息到达处理函数之前/之后执行的拦截逻辑，比如权限检查 |
-| `Filter` | 路由匹配条件 | 决定一条消息由哪个处理函数来处理，比如 `Command("login")` 匹配 `/login` 命令 |
+| `Filter` | 路由匹配条件 | 决定一条消息由哪个处理函数来处理，比如 `Command("start")` 匹配 `/start` 命令 |
 | `Polling` | 轮询模式 | Bot 主动向 Telegram 服务器拉取新消息（另一种是 Webhook 模式，本项目用轮询） |
 
 **一条消息的处理流程：**
@@ -133,7 +133,7 @@ bot/
 │   └── prompts.py       # 系统提示词：定义 Claude 的角色和行为规则
 │
 ├── handlers/            # Telegram 消息处理器
-│   ├── commands.py      # 命令处理：/start、/help、/login、/logout、/reset
+│   ├── commands.py      # 命令处理：/start、/help、/logout、/reset
 │   └── chat.py          # 聊天处理：非命令的自由文本 → Claude Agent
 │
 └── scheduler/           # 定时任务
@@ -254,21 +254,7 @@ safe_user = {
 
 ### 4.4 命令处理 — `handlers/commands.py`
 
-处理 Telegram 的斜杠命令（`/start`、`/help`、`/login`、`/logout`、`/reset`）。
-
-**`/login` 为什么比较特殊？**
-
-它涉及几个额外处理：
-
-1. **`asyncio.to_thread(login, ...)`**：`cli.auth.login.login()` 是同步阻塞函数（内部发 HTTP 请求）。如果直接在异步事件循环里调用，会阻塞整个 Bot，所有消息处理都停住。`to_thread` 把它丢到线程池执行，不阻塞事件循环。
-
-2. **`finally: await message.delete()`**：用户发的 `/login 学号 密码` 消息里有明文密码。处理完后尝试删除这条消息，减少密码在聊天记录里暴露。删除可能失败（Bot 没有删除权限），所以用 `try/except` 吞掉异常。
-
-3. **`_mask_username()`**：日志里记录用户名时脱敏，`12345678` 变成 `12***78`，防止日志泄露。
-
-**为什么 `/login` 不走 Claude Agent？**
-
-登录涉及密码，走 Agent 意味着密码会经过 Claude API（第三方服务），增加了泄露风险。直接调用 `cli.auth.login` 更安全——密码只在本地处理。
+处理 Telegram 的斜杠命令（`/start`、`/help`、`/logout`、`/reset`）。
 
 ### 4.5 聊天处理 — `handlers/chat.py`
 
@@ -376,18 +362,7 @@ def _get_nightly_time() -> str:
   → _split_text 拆分 → 逐条发送给用户
 ```
 
-### 5.2 用户执行 `/login` 命令
-
-```
-用户 → /login 学号 密码
-  → OwnerOnlyMiddleware → login_handler
-  → asyncio.to_thread(login, username, password)  # 不走 Claude
-  → cli/auth/login.py → 校园 API
-  → 登录成功 → 回复"登录成功"
-  → finally: 删除含密码的消息
-```
-
-### 5.3 每晚定时考勤检查
+### 5.2 每晚定时考勤检查
 
 ```
 NightlyAttendanceScheduler._run_loop()

@@ -1,4 +1,4 @@
-"""Command handlers for Telegram bot — 处理 /start、/help、/login、/logout 等命令。"""
+"""Command handlers for Telegram bot — 处理 /start、/help、/logout、/reset 等命令。"""
 
 from __future__ import annotations
 
@@ -6,14 +6,12 @@ import asyncio
 import logging
 
 from aiogram import Router
-from aiogram.filters import Command, CommandObject
+from aiogram.filters import Command
 from aiogram.types import Message
 
 from bot.agent.client import AgentManager, AgentManagerError
 from bot.handlers.utils import chat_session_scope
-from cli.auth.login import LoginError, MFARequiredError, login
 from cli.auth.token import clear_session, load_session
-from cli.types import UserInfo
 
 logger = logging.getLogger(__name__)
 
@@ -35,11 +33,6 @@ def _mask_username(username: str) -> str:
     return f"{value[:2]}***{value[-2:]}"
 
 
-def _user_display_name(user: UserInfo, fallback: str) -> str:
-    """Choose a human-friendly display name from login result."""
-    return user.get("name") or user.get("realName") or user.get("username") or fallback
-
-
 def create_commands_router(agent_manager: AgentManager) -> Router:
     """创建命令路由器，注册所有 slash 命令处理函数。"""
     router = Router(name="commands")
@@ -53,7 +46,6 @@ def create_commands_router(agent_manager: AgentManager) -> Router:
             "欢迎使用 ZUEB 助手机器人。\n"
             "可用命令：\n"
             "/help 查看帮助\n"
-            "/login <学号或工号> <密码> 登录\n"
             "/logout 退出登录\n"
             "/reset 清空当前聊天上下文"
         )
@@ -65,96 +57,10 @@ def create_commands_router(agent_manager: AgentManager) -> Router:
         logger.info("Command /help: user_id=%s chat_id=%s", user_id, chat_id)
         await message.answer(
             "使用方式：\n"
-            "1) /login <学号或工号> <密码>\n"
-            "2) 直接发消息，例如：查看我本周课表、打卡了吗\n"
-            "3) /logout 退出当前账号\n"
-            "4) /reset 清空当前聊天历史上下文\n\n"
-            "提示：/login 指令消息会在处理后尝试删除，以减少密码暴露风险。"
+            "1) 直接发消息，例如：查看我本周课表、打卡了吗\n"
+            "2) /logout 退出当前账号\n"
+            "3) /reset 清空当前聊天历史上下文"
         )
-
-    @router.message(Command("login"))
-    async def login_handler(message: Message, command: CommandObject) -> None:
-        """处理 /login — 解析学号和密码，执行登录流程。"""
-        user_id, chat_id = _message_context(message)
-        logger.info("Command /login received: user_id=%s chat_id=%s", user_id, chat_id)
-        args = (command.args or "").strip()
-        username = ""
-        password = ""
-
-        try:
-            # 按空格拆分参数：第一段为学号/工号，其余为密码
-            parts = args.split(maxsplit=1)
-            if len(parts) < 2:
-                logger.warning("Command /login invalid args: user_id=%s chat_id=%s", user_id, chat_id)
-                await message.answer("用法：/login <学号或工号> <密码>")
-                return
-
-            username = parts[0].strip()
-            password = parts[1]
-            if not username or not password:
-                logger.warning("Command /login empty credential field: user_id=%s chat_id=%s", user_id, chat_id)
-                await message.answer("用法：/login <学号或工号> <密码>")
-                return
-
-            logger.info(
-                "Command /login attempt: user_id=%s chat_id=%s username=%s",
-                user_id,
-                chat_id,
-                _mask_username(username),
-            )
-            await message.answer("正在登录，请稍候...")
-            # login() 是同步阻塞函数，放到线程中执行避免阻塞事件循环
-            result = await asyncio.to_thread(login, username, password)
-
-            # 从登录结果中提取用于显示的用户姓名
-            user = result["user"]
-            display_name = _user_display_name(user, username)
-            logger.info(
-                "Command /login success: user_id=%s chat_id=%s username=%s",
-                user_id,
-                chat_id,
-                _mask_username(username),
-            )
-            await message.answer(f"登录成功，欢迎你：{display_name}")
-        except MFARequiredError as exc:
-            # 账号启用了多因素认证，当前 Bot 流程暂不支持
-            logger.warning(
-                "Command /login MFA required: user_id=%s chat_id=%s username=%s error=%s",
-                user_id,
-                chat_id,
-                _mask_username(username),
-                exc,
-            )
-            await message.answer(f"登录失败：该账号需要 MFA，当前流程不支持。\n{exc}")
-        except LoginError as exc:
-            # 登录业务逻辑错误（如密码错误、账号不存在等）
-            logger.warning(
-                "Command /login failed: user_id=%s chat_id=%s username=%s error=%s",
-                user_id,
-                chat_id,
-                _mask_username(username),
-                exc,
-            )
-            await message.answer(f"登录失败：{exc}")
-        except Exception as exc:  # pragma: no cover - defensive guard
-            logger.exception(
-                "Command /login unexpected error: user_id=%s chat_id=%s username=%s",
-                user_id,
-                chat_id,
-                _mask_username(username),
-            )
-            await message.answer(f"登录异常：{exc}")
-        finally:
-            # 尝试删除包含明文密码的命令消息，降低密码泄露风险
-            try:
-                await message.delete()
-            except Exception:
-                logger.debug(
-                    "Command /login delete message failed: user_id=%s chat_id=%s",
-                    user_id,
-                    chat_id,
-                )
-                pass
 
     @router.message(Command("logout"))
     async def logout_handler(message: Message) -> None:

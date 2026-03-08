@@ -144,7 +144,7 @@ def schedule(
 
     session = load_session()
     if not session or not session.get("id_token"):
-        _error_out("当前未登录，请先执行 /login <学号或工号> <密码>。")
+        _error_out("当前未登录，请手动更新认证文件后重试。")
 
     id_token = session["id_token"]
 
@@ -171,7 +171,7 @@ def attendance() -> None:
 
     session = load_session()
     if not session or not session.get("id_token"):
-        _error_out("当前未登录，请先执行 /login <学号或工号> <密码>。")
+        _error_out("当前未登录，请手动更新认证文件后重试。")
 
     id_token = session["id_token"]
 
@@ -204,7 +204,7 @@ def attendance_punch(mode: str, xy: str | None, confirm: str | None) -> None:
 
     session = load_session()
     if not session or not session.get("id_token"):
-        _error_out("当前未登录，请先执行 /login <学号或工号> <密码>。")
+        _error_out("当前未登录，请手动更新认证文件后重试。")
 
     id_token = session["id_token"]
 
