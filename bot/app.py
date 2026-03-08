@@ -5,6 +5,7 @@ from __future__ import annotations
 from collections.abc import Awaitable, Callable
 import logging
 import os
+import pathlib
 import sys
 from typing import Any
 
@@ -94,17 +95,21 @@ async def run() -> None:
             "请检查 ANTHROPIC_BASE_URL 配置。"
         )
         logger.critical(msg)
-        notified = False
-        try:
-            await bot.send_message(chat_id=config.owner_id, text=msg)
-            notified = True
-        except Exception:
-            logger.exception("Failed to send startup failure notification")
+        # Use a flag file to ensure the Telegram notification is sent at most
+        # once, even if the process manager restarts us with Restart=always.
+        flag = pathlib.Path(__file__).resolve().parent.parent / ".tool_check_failed"
+        if not flag.exists():
+            try:
+                await bot.send_message(chat_id=config.owner_id, text=msg)
+                flag.touch()
+            except Exception:
+                logger.exception("Failed to send startup failure notification")
         await bot.session.close()
-        # Exit 0 if owner was notified so process managers (Restart=on-failure)
-        # do not restart the bot and send the notification repeatedly.
-        # Exit 1 only if notification failed, allowing one retry.
-        sys.exit(0 if notified else 1)
+        sys.exit(1)
+    # Clear flag on successful check (e.g. after config is fixed and bot restarts)
+    flag = pathlib.Path(__file__).resolve().parent.parent / ".tool_check_failed"
+    if flag.exists():
+        flag.unlink(missing_ok=True)
     logger.info("Tool calling capability check passed")
 
     # 4. 注册中间件和路由
