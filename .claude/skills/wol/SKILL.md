@@ -1,19 +1,20 @@
 ---
 name: wol
-description: 远程唤醒台式电脑（Wake-on-LAN）。当用户说开机、唤醒电脑、开电脑、远程开机、WOL、打开台式机、启动电脑时触发。通过SSH连接路由器发送魔术包。
+description: 远程唤醒台式电脑（Wake-on-LAN）。用于用户要求开机、唤醒台式机、远程开机、发送 WOL 魔术包、启动家里电脑时。
 ---
 
-# WOL (Wake-on-LAN)
+# WOL
 
-通过 SSH 连接 OpenWrt 路由器，发送 WOL 魔术包唤醒台式电脑。
+需要远程唤醒台式电脑时，调用 helper：
 
 ```bash
 .venv/bin/python bot/agent/helper.py wol
 ```
 
-## Presenting Results
+## Instructions
 
-- Parse the JSON output.
-- Success: tell user the wake packet has been sent, desktop should boot in ~30 seconds.
-- Failure: show the error message and suggest checking router connectivity.
-- Note: WOL only sends the magic packet — it cannot confirm the PC actually powered on.
+- 解析 JSON 后给出结果，不要原样输出 JSON。
+- 成功时，明确说明魔术包已发送，台式机通常会在约 30 秒内启动。
+- 失败时，展示错误摘要，并建议检查路由器连通性或稍后重试。
+- 明确说明该操作只能发送唤醒包，不能确认电脑一定已经成功开机。
+- 不要展开 SSH 或路由器实现细节，除非用户继续追问。

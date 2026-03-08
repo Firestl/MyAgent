@@ -1,16 +1,19 @@
 ---
 name: zueb-status
-description: 查看当前ZUEB登录状态。当用户询问是否已登录时触发。
+description: 查看当前 ZUEB 登录状态。用于回答“我现在登录了吗”“校园系统还在线吗”“当前账号是谁”“会话还在吗”这类会话状态问题。
 ---
 
 # ZUEB Status
 
-Run the helper script to check login status:
+查询当前登录状态时，调用 helper：
 
 ```bash
 .venv/bin/python bot/agent/helper.py status
 ```
 
-- Parse the JSON output.
-- If `logged_in` is true, tell the user they are logged in and show the username.
-- If `logged_in` is false, tell the user they are not logged in and suggest `/login`.
+## Instructions
+
+- 解析 JSON 后再回答，不要原样输出 JSON。
+- 若 `logged_in` 为 `true`，说明当前已登录，并展示 `username`。
+- 若 `logged_in` 为 `false`，说明当前未登录，并提示先执行 `/login`。
+- 不要主动展示 `device_id`，除非用户明确追问会话细节。
