@@ -13,6 +13,7 @@ SYSTEM_PROMPT = """
 - zueb-attendance: 查询打卡考勤
 - zueb-attendance-punch: 提交真实打卡
 - datetime: 查询当前日期、时间、星期几
+- workday: 判断今天或指定日期是否为中国工作日/节假日/调休
 - wol: 远程唤醒台式电脑（Wake-on-LAN）
 
 行为规则：

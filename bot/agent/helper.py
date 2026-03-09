@@ -335,6 +335,50 @@ def datetime_info(timezone_name: str) -> None:
 
 
 @cli.command()
+@click.option("--date", "date_str", default=None, help="Date in YYYY-MM-DD format (defaults to today in Asia/Shanghai)")
+def workday(date_str: str | None) -> None:
+    """Check if a date is a Chinese workday or holiday."""
+    import chinese_calendar
+    from datetime import date as date_cls
+
+    if date_str:
+        try:
+            target_date = date_cls.fromisoformat(date_str)
+        except ValueError:
+            _error_out(f"无效日期格式：{date_str}，请使用 YYYY-MM-DD。")
+    else:
+        target_date = datetime.now(ZoneInfo("Asia/Shanghai")).date()
+
+    try:
+        is_holiday, holiday_name = chinese_calendar.get_holiday_detail(target_date)
+    except NotImplementedError:
+        _error_out(f"暂无 {target_date.year} 年的节假日数据，请更新 chinesecalendar 库。")
+    except Exception as exc:
+        _error_out(f"节假日查询异常：{exc}")
+
+    weekday = target_date.isoweekday()  # 1=Mon … 7=Sun
+    weekday_cn = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"][weekday - 1]
+
+    if is_holiday and holiday_name:
+        day_type = "holiday"
+    elif is_holiday:
+        day_type = "weekend"
+    elif holiday_name:
+        day_type = "adjusted_workday"  # weekend made a workday to compensate for holiday
+    else:
+        day_type = "workday"
+
+    _json_out({
+        "ok": True,
+        "date": target_date.isoformat(),
+        "weekday_cn": weekday_cn,
+        "is_workday": not is_holiday,
+        "type": day_type,
+        "holiday_name": holiday_name,
+    })
+
+
+@cli.command()
 def wol() -> None:
     """Wake desktop PC via Wake-on-LAN through OpenWrt router."""
     import subprocess
