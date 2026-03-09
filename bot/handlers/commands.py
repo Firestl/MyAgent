@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import os
 
 from aiogram import Router
 from aiogram.filters import Command, CommandObject
@@ -80,28 +81,48 @@ def create_commands_router(agent_manager: AgentManager) -> Router:
         args = (command.args or "").strip()
         username = ""
         password = ""
+        has_password_in_message = False  # controls whether to delete the message
 
         try:
-            # 按空格拆分参数：第一段为学号/工号，其余为密码
-            parts = args.split(maxsplit=1)
-            if len(parts) < 2:
-                logger.warning("Command /login invalid args: user_id=%s chat_id=%s", user_id, chat_id)
-                await message.answer("用法：/login <学号或工号> <密码>")
-                return
+            if not args:
+                # No args — try environment variables for unattended / scheduler use
+                username = os.environ.get("ZUEB_USERNAME", "")
+                password = os.environ.get("ZUEB_PASSWORD", "")
+                if not username or not password:
+                    await message.answer(
+                        "用法：/login <学号或工号> <密码>\n"
+                        "（或设置环境变量 ZUEB_USERNAME / ZUEB_PASSWORD）"
+                    )
+                    return
+                logger.info(
+                    "Command /login using env-var credentials: user_id=%s chat_id=%s username=%s",
+                    user_id,
+                    chat_id,
+                    _mask_username(username),
+                )
+            else:
+                # 按空格拆分参数：第一段为学号/工号，其余为密码
+                parts = args.split(maxsplit=1)
+                if len(parts) < 2:
+                    logger.warning("Command /login invalid args: user_id=%s chat_id=%s", user_id, chat_id)
+                    await message.answer("用法：/login <学号或工号> <密码>")
+                    return
 
-            username = parts[0].strip()
-            password = parts[1]
-            if not username or not password:
-                logger.warning("Command /login empty credential field: user_id=%s chat_id=%s", user_id, chat_id)
-                await message.answer("用法：/login <学号或工号> <密码>")
-                return
+                username = parts[0].strip()
+                password = parts[1]
+                if not username or not password:
+                    logger.warning("Command /login empty credential field: user_id=%s chat_id=%s", user_id, chat_id)
+                    await message.answer("用法：/login <学号或工号> <密码>")
+                    return
 
-            logger.info(
-                "Command /login attempt: user_id=%s chat_id=%s username=%s",
-                user_id,
-                chat_id,
-                _mask_username(username),
-            )
+                has_password_in_message = True
+                logger.info(
+                    "Command /login attempt: user_id=%s chat_id=%s username=%s",
+                    user_id,
+                    chat_id,
+                    _mask_username(username),
+                )
+
             await message.answer("正在登录，请稍候...")
             # login() 是同步阻塞函数，放到线程中执行避免阻塞事件循环
             result = await asyncio.to_thread(login, username, password)
@@ -145,16 +166,17 @@ def create_commands_router(agent_manager: AgentManager) -> Router:
             )
             await message.answer(f"登录异常：{exc}")
         finally:
-            # 尝试删除包含明文密码的命令消息，降低密码泄露风险
-            try:
-                await message.delete()
-            except Exception:
-                logger.debug(
-                    "Command /login delete message failed: user_id=%s chat_id=%s",
-                    user_id,
-                    chat_id,
-                )
-                pass
+            # 仅当消息中包含明文密码时才删除，降低密码泄露风险
+            if has_password_in_message:
+                try:
+                    await message.delete()
+                except Exception:
+                    logger.debug(
+                        "Command /login delete message failed: user_id=%s chat_id=%s",
+                        user_id,
+                        chat_id,
+                    )
+                    pass
 
     @router.message(Command("logout"))
     async def logout_handler(message: Message) -> None:

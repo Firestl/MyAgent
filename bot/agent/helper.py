@@ -7,11 +7,12 @@ Claude 通过 SKILL.md 中的 Bash 指令调用这些子命令。
 
 from __future__ import annotations
 
-from collections.abc import Mapping
+from collections.abc import Callable, Mapping
 from datetime import datetime
 import json
+import os
 import sys
-from typing import NoReturn
+from typing import Any, NoReturn
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 import click
@@ -71,17 +72,101 @@ def _error_out(message: str) -> NoReturn:
     sys.exit(1)
 
 
+def _auto_login() -> str | None:
+    """Attempt login using ZUEB_USERNAME / ZUEB_PASSWORD from environment.
+
+    Returns the new id_token on success, or None on any failure (missing env
+    vars, wrong credentials, network error, etc.).
+    """
+    from cli.auth.login import login as do_login
+
+    username = os.environ.get("ZUEB_USERNAME", "")
+    password = os.environ.get("ZUEB_PASSWORD", "")
+    if not username or not password:
+        return None
+    try:
+        result = do_login(username, password)
+        return result["id_token"]
+    except Exception:
+        return None
+
+
+def _ensure_session() -> str:
+    """Return a valid id_token, transparently auto-logging in if no session exists.
+
+    Exits via _error_out only if both the stored session and auto-login fail.
+    """
+    from cli.auth.token import load_session
+
+    session = load_session()
+    if session and session.get("id_token"):
+        return session["id_token"]
+
+    token = _auto_login()
+    if token:
+        return token
+
+    _error_out("当前未登录，且自动登录失败，请先执行 /login <学号或工号> <密码>。")
+
+
+def _is_sso_error(error_msg: str) -> bool:
+    """Return True if the error message indicates an SSO / token-expiry failure."""
+    sso_keywords = (
+        "SSO authentication failed",
+        "SSO redirect request failed",
+        "CAS login",
+        "CAS did not return redirect",
+        "No ticket in CAS redirect",
+        "JWXT",
+        "userCode/md5Str not found",
+        "id_token is required",
+    )
+    return any(kw in error_msg for kw in sso_keywords)
+
+
+def _run_with_relogin(
+    fn: Callable[[str], Any],
+    id_token: str,
+    error_type: type[Exception],
+) -> Any:
+    """Call fn(id_token), retrying once with a fresh token on SSO-related errors.
+
+    Non-SSO errors from the first call are re-raised so the caller can handle
+    them with its own except clauses.  Any failure on the retry call exits via
+    _error_out.
+    """
+    try:
+        return fn(id_token)
+    except error_type as exc:
+        if not _is_sso_error(str(exc)):
+            raise
+        new_token = _auto_login()
+        if not new_token:
+            _error_out(f"SSO 认证失败，自动重登录也失败，请手动 /login。原始错误：{exc}")
+        try:
+            return fn(new_token)
+        except error_type as exc2:
+            _error_out(str(exc2))
+
+
 @click.group()
 def cli() -> None:
     """ZUEB helper — JSON interface for Claude Skills."""
 
 
 @cli.command()
-@click.argument("username")
-@click.argument("password")
+@click.argument("username", default="", required=False)
+@click.argument("password", default="", required=False)
 def login(username: str, password: str) -> None:
-    """Login with username and password."""
+    """Login with username and password (falls back to env vars if omitted)."""
     from cli.auth.login import LoginError, MFARequiredError, login as do_login
+
+    if not username:
+        username = os.environ.get("ZUEB_USERNAME", "")
+    if not password:
+        password = os.environ.get("ZUEB_PASSWORD", "")
+    if not username or not password:
+        _error_out("未提供账号或密码，且环境变量 ZUEB_USERNAME / ZUEB_PASSWORD 未设置。")
 
     try:
         result = do_login(username, password)
@@ -139,23 +224,22 @@ def schedule(
     list_semesters: bool,
 ) -> None:
     """Query course schedule."""
-    from cli.auth.token import load_session
     from cli.schedule.service import ScheduleError, get_available_semesters, get_schedule
 
-    session = load_session()
-    if not session or not session.get("id_token"):
-        _error_out("当前未登录，请先执行 /login <学号或工号> <密码>。")
-
-    id_token = session["id_token"]
+    id_token = _ensure_session()
 
     try:
         # --list 模式：仅返回可选学期列表
         if list_semesters:
-            semesters = get_available_semesters(id_token)
+            semesters = _run_with_relogin(get_available_semesters, id_token, ScheduleError)
             _json_out({"ok": True, "semesters": semesters})
             return
 
-        data = get_schedule(id_token, semester, year, term, week)
+        data = _run_with_relogin(
+            lambda tok: get_schedule(tok, semester, year, term, week),
+            id_token,
+            ScheduleError,
+        )
         _json_out({"ok": True, "schedule": data})
     except ScheduleError as exc:
         _error_out(str(exc))
@@ -166,17 +250,12 @@ def schedule(
 @cli.command()
 def attendance() -> None:
     """Query today's attendance status."""
-    from cli.auth.token import load_session
     from cli.attendance.service import AttendanceError, get_attendance_status
 
-    session = load_session()
-    if not session or not session.get("id_token"):
-        _error_out("当前未登录，请先执行 /login <学号或工号> <密码>。")
-
-    id_token = session["id_token"]
+    id_token = _ensure_session()
 
     try:
-        data = get_attendance_status(id_token)
+        data = _run_with_relogin(get_attendance_status, id_token, AttendanceError)
         _json_out({"ok": True, "attendance": data})
     except AttendanceError as exc:
         _error_out(str(exc))
@@ -196,20 +275,19 @@ def attendance() -> None:
 @click.option("--confirm", default=None, help='Type "yes" to confirm actual punch submission')
 def attendance_punch(mode: str, xy: str | None, confirm: str | None) -> None:
     """Submit today's attendance punch."""
-    from cli.auth.token import load_session
     from cli.attendance.service import AttendanceError, punch_attendance
 
     if confirm != "yes":
         _error_out('执行打卡前必须显式传入 --confirm yes。')
 
-    session = load_session()
-    if not session or not session.get("id_token"):
-        _error_out("当前未登录，请先执行 /login <学号或工号> <密码>。")
-
-    id_token = session["id_token"]
+    id_token = _ensure_session()
 
     try:
-        data = punch_attendance(id_token, mode=mode, xy=xy)
+        data = _run_with_relogin(
+            lambda tok: punch_attendance(tok, mode=mode, xy=xy),
+            id_token,
+            AttendanceError,
+        )
         _json_out({"ok": True, **data})
     except AttendanceError as exc:
         _error_out(str(exc))
