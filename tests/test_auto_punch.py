@@ -9,11 +9,13 @@ from cli.attendance.service import AttendanceError
 
 
 async def _immediate_to_thread(func, /, *args, **kwargs):
+    """测试替身：同步执行 to_thread 任务，避免真实线程切换。"""
     # 测试里不需要真的切线程，直接同步执行即可。
     return func(*args, **kwargs)
 
 
 def _make_scheduler(retries: int = 2) -> AutoPunchScheduler:
+    """构造仅供 _do_punch 测试使用的最小调度器实例。"""
     # 只构造 _do_punch() 所需的最小调度器实例，并拦截通知发送。
     scheduler = AutoPunchScheduler(
         bot=object(),
@@ -33,11 +35,13 @@ def _make_scheduler(retries: int = 2) -> AutoPunchScheduler:
 
 @pytest.mark.anyio
 async def test_do_punch_keeps_retry_budget_after_relogin(monkeypatch: pytest.MonkeyPatch) -> None:
+    """测试 SSO 重登后仍保留普通失败的剩余重试次数。"""
     # 目标场景：首次因 SSO 失败，重登后又遇到一次普通错误，随后仍继续走剩余重试。
     scheduler = _make_scheduler(retries=2)
     punch_calls: list[str] = []
 
     def fake_punch(token: str, *, mode: str):
+        """按调用次序注入失败/成功结果，验证 token 切换与重试路径。"""
         # 按调用次数编排结果，验证 token 切换和重试是否符合预期。
         punch_calls.append(token)
         if len(punch_calls) == 1:
@@ -65,6 +69,7 @@ async def test_do_punch_keeps_retry_budget_after_relogin(monkeypatch: pytest.Mon
 
 @pytest.mark.anyio
 async def test_do_punch_stops_when_relogin_fails(monkeypatch: pytest.MonkeyPatch) -> None:
+    """测试 SSO 失败且自动重登失败时会立即停止并通知。"""
     # 目标场景：首次 SSO 失败后，自动重登录也失败，应立即结束并通知。
     scheduler = _make_scheduler(retries=2)
 

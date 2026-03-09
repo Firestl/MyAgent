@@ -7,6 +7,7 @@ from bot.config import load_config
 
 
 def _env(**overrides: str) -> dict[str, str]:
+    """生成 load_config() 测试所需的基础环境变量集合。"""
     # 提供 load_config() 的最小必需环境，再由各测试覆盖关心的配置项。
     env = {
         "TELEGRAM_BOT_TOKEN": "bot-token",
@@ -18,6 +19,7 @@ def _env(**overrides: str) -> dict[str, str]:
 
 
 def test_load_config_accepts_valid_auto_punch_boundaries(monkeypatch: pytest.MonkeyPatch) -> None:
+    """测试合法的自动打卡时间边界可以顺利通过配置校验。"""
     # 正例：早卡 < 08:00，晚卡 >= 16:30，且通知时间早于打卡时间。
     monkeypatch.setattr(os, "environ", _env(
         AUTO_PUNCH_MORNING_NOTIFY="07:50",
@@ -33,6 +35,7 @@ def test_load_config_accepts_valid_auto_punch_boundaries(monkeypatch: pytest.Mon
 
 
 def test_load_config_rejects_morning_punch_at_or_after_eight(monkeypatch: pytest.MonkeyPatch) -> None:
+    """测试早卡时间到 08:00 或更晚时会被配置校验拒绝。"""
     # 反例：早卡到 08:00 及以后，启动阶段就应报错。
     monkeypatch.setattr(os, "environ", _env(AUTO_PUNCH_MORNING_PUNCH="08:00").copy())
 
@@ -44,6 +47,7 @@ def test_load_config_rejects_morning_punch_at_or_after_eight(monkeypatch: pytest
 
 
 def test_load_config_rejects_evening_punch_before_sixteen_thirty(monkeypatch: pytest.MonkeyPatch) -> None:
+    """测试晚卡时间早于 16:30 时会被配置校验拒绝。"""
     # 反例：晚卡早于 16:30，启动阶段就应报错。
     monkeypatch.setattr(os, "environ", _env(
         AUTO_PUNCH_EVENING_NOTIFY="16:20",
@@ -58,6 +62,7 @@ def test_load_config_rejects_evening_punch_before_sixteen_thirty(monkeypatch: py
 
 
 def test_load_config_still_requires_notify_before_punch(monkeypatch: pytest.MonkeyPatch) -> None:
+    """测试提醒时间必须早于打卡时间的旧规则仍然生效。"""
     # 回归：新增时间窗口校验后，原有的“提醒时间必须早于打卡时间”规则仍需保留。
     monkeypatch.setattr(os, "environ", _env(
         AUTO_PUNCH_MORNING_NOTIFY="07:55",
